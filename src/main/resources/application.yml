@@ -1,0 +1,39 @@
+
+server:
+  port: 8090
+
+#mybatis.mapperLocations=classpath:mapping/*.xml
+
+#数据库连接
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/hotel?characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: 971019
+  # 邮箱配置
+  mail:
+    default-encoding: utf-8
+    host: smtp.qq.com
+    username: 1079503225@qq.com
+    password: zys980827.
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttlls:
+            enable: true
+            required: true
+  #日志
+
+
+  #文件上传
+  application:
+    name: upload-service
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+
+
