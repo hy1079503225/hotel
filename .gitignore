@@ -1,4 +1,4 @@
-#过滤文件夹target,.idea
+﻿#过滤文件夹target,.idea
 /target
 /.idea
 /out
