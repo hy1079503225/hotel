@@ -2,21 +2,25 @@ package com.hnist.hotel.service.model;
 
 import java.util.Date;
 
-public class CheckInAndOut {
+public class CheckIn {
 
     private Integer id;
 
     private Integer orderId;
 
+    private Integer hotelId;
+
     private Integer roomId;
 
     private String roomNumber;
 
-    private Integer personNum;
+    private String roomType;
+
+    private Integer personNumber;
 
     private Integer persons;
 
-    private String cardId;
+    private String cardIds;
 
     private Date checkInTime;
 

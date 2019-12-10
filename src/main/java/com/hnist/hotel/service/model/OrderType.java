@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class OrderType {
 
-    private Integer typeId;
+    private Integer id;
 
     private String type;
 

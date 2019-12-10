@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class RoomType {
 
-    private Integer typeId;
+    private Integer id;
 
     private String roomType;
 

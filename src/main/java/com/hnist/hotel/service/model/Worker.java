@@ -4,7 +4,9 @@ import java.util.Date;
 
 public class Worker {
 
-    private Integer workId;
+    private Integer id;
+
+    private Integer hotelId;
 
     private String role;
 
@@ -14,7 +16,7 @@ public class Worker {
 
     private String name;
 
-    private String gender;
+    private Byte gender;
 
     private String phone;
 

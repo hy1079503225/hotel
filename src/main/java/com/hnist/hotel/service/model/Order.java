@@ -4,21 +4,17 @@ import java.util.Date;
 
 public class Order {
 
-    private Integer orderId;
+    private Integer id;
 
-    private Integer orderTypeId;
+    private Integer hotelId;
 
-    private String orderType;
-
-    private Integer userId;
-
-    private String name;
+    private Integer orderType;
 
     private String phone;
 
-    private Integer roomTypeId;
-
     private String roomType;
+
+    private Integer roomNumber;
 
     private Date orderDate;
 

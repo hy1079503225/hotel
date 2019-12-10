@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>门店展示</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+        font-size: 14px;
+    }
+
+    .hotel {
+        float: left;
+        margin: 0 0 80px 80px;
+        width: 261px;
+        height: 294px;
+        cursor: pointer;
+        overflow: hidden;
+        border-radius: 5px;
+        box-shadow: 5px 5px 19px 0 hsla(0, 0%, 84%, .5);
+    }
+
+    .hotel-img {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50%;
+    }
+
+    .hotel-bottom {
+        padding: 22px;
+    }
+
+    p {
+        font-size: 14px;
+        font-weight: bolder;
+        color: #4a4a4a;
+        margin-bottom: 20px;
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
+
+    .hotel .price-order {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .hotel .hotel-price {
+        font-size: 18px;
+        font-weight: bolder;
+        color: #1ba7e0;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .hotel .hotel-price .cny,
+    .hotel .hotel-price .current{
+        font-weight: lighter;
+        font-size: 12px;
+    }
+
+    .hotel .hotel-price .start {
+        font-size: 12px;
+        font-weight: lighter;
+        position: relative;
+        top: -1px;
+    }
+
+    .hotel .book-btn {
+        width: 108px;
+        height: 31px;
+        line-height: 31px;
+        background: #1ba7e0;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        border-radius: 5px;
+    }
+    .page{
+        margin: 0 auto;
+        position: relative;
+        background: #f9f9f9;
+        overflow-x: hidden;
+    }
+    .header_container{
+        width: 100%;
+        height: 46px;
+        z-index: 310;
+    }
+    .new-top-bar{
+        float: right;
+        font-size: 0;
+    }
+    .new-top-bar-tel{
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 1.4;
+        font-size: 14px;
+        color: #001e3a;
+    }
+</style>
+<body>
+<div class="page">
+    <div class="header_container">
+        <div class="new-top-bar">
+            <span id="searchcall" class="new-top-bar-tel">
+                <i>免费订房热线</i>
+
+            </span>
+        </div>
+    </div>
+    <div>
+        <div class="hotel">
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu11.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >上海东锦江希尔顿逸林酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            595
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel" >
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu22.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >上海东锦江希尔顿逸林酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            558
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel" >
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu33.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >上海虹桥元一希尔顿酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            1883
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel" >
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu44.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >北京华尔道夫酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            1567
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel" >
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu55.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >三亚海棠湾康莱德酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            1511
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel" >
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu66.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >深圳蛇口希尔顿南海酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            672
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel" >
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu77.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >深圳大中华希尔顿酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            793
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel" >
+            <div class="hotel-img" style="background-image: url('./images/hotel/jiu88.jpg');"></div>
+            <div class="hotel-bottom">
+                <p class="hotel-name line2" >广州万富希尔顿酒店</p>
+                <div class="price-order">
+                    <div class="hotel-price">
+                        <p><span class="cny">CNY</span>
+                            743
+                            <span class="start">起</span></p>
+                    </div>
+                    <div class="book-btn"><span class="order">立即预订</span> <i class="arrow"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

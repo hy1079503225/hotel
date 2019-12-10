@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 
-    private Integer userId;
+    private Integer id;
 
     private String username;
 
@@ -12,7 +12,7 @@ public class User {
 
     private String name;
 
-    private String gender;
+    private Byte gender;
 
     private String phone;
 

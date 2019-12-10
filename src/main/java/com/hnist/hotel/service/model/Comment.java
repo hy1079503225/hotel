@@ -4,9 +4,11 @@ public class Comment {
 
     private Integer id;
 
+    private Integer hotelId;
+
     private Integer userId;
 
-    private Integer hotelId;
+    private Integer roomId;
 
     private String content;
 }
