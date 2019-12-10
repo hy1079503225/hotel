@@ -111,6 +111,130 @@
         font-size: 14px;
         color: #001e3a;
     }
+    .content{
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-align: center;
+        align-items: center;
+        margin-top: -80px;
+    }
+    .search-bar{
+        width: 1153px;
+        padding: 20px 44px;
+        margin: 37px auto;
+        box-shadow: 0 6px 13px 0 hsla(0,0%,84%,.5);
+        border-radius: 6px;
+        background: #fff;
+    }
+    .flex.align-center {
+        -ms-flex-align: center;
+        align-items: center;
+    }
+    .flex {
+        display: -ms-flexbox;
+        display: flex;
+    }
+    .selector-wrapper .hotel-option.active{
+        font-size: 24px;
+        color: #104c97;
+        font-weight: bolder;
+        position: relative;
+    }
+    .selector-wrapper .hotel-option{
+        font-size: 22px;
+        color: #535353;
+        font-weight: lighter;
+        height: 55px;
+        cursor: pointer;
+    }
+    .selector-wrapper .hotel-option.active:after {
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: #104c97 transparent transparent;
+        border-width: 12px;
+        position: absolute;
+        bottom: -4px;
+        left: 30px;
+    }
+    .mt10 {
+        margin-top: 10px;
+    }
+    .selector-wrapper .search-box{
+        width: 276px;
+        height: 46px;
+    }
+    .search-option.active{
+        background: #104c97;
+        color: #fff;
+    }
+    .search-option{
+        width: 276px;
+        height: 100%;
+        background: #fff;
+        color: #104c97;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        position: relative;
+    }
+    .search-option .title{
+        margin-left: 30px;
+    }
+    .search-option.active .arrow{
+        transform: rotate(180deg);
+    }
+    .search-option .arrow{
+        display: block;
+        font-weight: bolder;
+        margin-right: 20px;
+        font-size: 20px;
+        transition: transform .3s;
+        text-align: center;
+    }
+    .el-icon-arrow-up:before {
+        content: "\E605";
+    }
+    .optioin-panel{
+        width: 800px;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        background: #fff;
+        z-index: 2;
+        box-shadow: 0 2px 10px rgba(0,0,0,.1);
+        box-sizing: border-box;
+    }
+    .shadow {
+        box-shadow: 0 6px 13px 0 hsla(0,0%,84%,.5);
+    }
+    .city-name-wrap{
+        color: #858585;
+        overflow: hidden;
+        height: 100%;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-line-pack: start;
+        align-content: flex-start;
+        padding: 0 15px 30px;
+    }
+    .city-name-wrap li{
+        padding: 5px 22px;
+        margin-top: 28px;
+        height: 20px;
+    }
+    li, ol, ul {
+        list-style: none;
+    }
 </style>
 <body>
 <div class="page">
@@ -118,10 +242,52 @@
         <div class="new-top-bar">
             <span id="searchcall" class="new-top-bar-tel">
                 <i>免费订房热线</i>
-
+                   888-8888-8888
             </span>
         </div>
     </div>
+    <section class="content">
+        <div class="search-bar">
+            <div class="selector-wrapper">
+                <div class="flex align-center">
+                    <p class="domestic-hotel-option hotel-option mr40 active">
+                        国内酒店
+                    </p>
+                </div>
+                <div class="flex mt10">
+                    <div class="search-box">
+                        <div class="search-option pointer active">
+                            <span class="title">
+                                <i>选择城市</i>
+                            </span>
+                            <i class="arrow el-icon-arrow-up">
+                            </i>
+                            <div class="optioin-panel shadow">
+                                <ul class="city-name-wrap">
+                                    <li class>
+                                        <p>北京</p>
+                                    </li>
+                                    <li class>
+                                        <p>上海</p>
+                                    </li>
+                                    <li class>
+                                        <p>广州</p>
+                                    </li>
+                                    <li class>
+                                        <p>深圳</p>
+                                    </li>
+                                    <li class>
+                                        <p>长沙</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
     <div>
         <div class="hotel">
             <div class="hotel-img" style="background-image: url('./images/hotel/jiu11.jpg');"></div>

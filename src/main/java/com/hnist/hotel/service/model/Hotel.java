@@ -8,6 +8,8 @@ public class Hotel {
 
     private String hotelName;
 
+    private String city;
+
     private String phone;
 
     private String email;
