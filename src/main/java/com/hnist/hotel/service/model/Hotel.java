@@ -8,7 +8,7 @@ public class Hotel {
 
     private String hotelName;
 
-    private String city;
+    private Integer cityId;
 
     private String phone;
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-12-09 11:19:13
+Date: 2019-12-10 16:32:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,6 +30,7 @@ CREATE TABLE `check_in` (
   `persons` varchar(255) NOT NULL DEFAULT '' COMMENT '入住人',
   `card_ids` varchar(255) NOT NULL DEFAULT '' COMMENT '身份证号',
   `check_in_time` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
+  `chek_out_time` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
   `create_time` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -45,8 +46,8 @@ CREATE TABLE `check_in` (
 DROP TABLE IF EXISTS `city`;
 CREATE TABLE `city` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `city_name` varchar(16) NOT NULL DEFAULT '',
   `hotel_id` int(11) NOT NULL DEFAULT '1',
-  `city` varchar(8) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -78,6 +79,7 @@ DROP TABLE IF EXISTS `hotel`;
 CREATE TABLE `hotel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hotel_name` varchar(64) NOT NULL DEFAULT '',
+  `city` varchar(16) NOT NULL DEFAULT '',
   `phone` varchar(16) NOT NULL DEFAULT '',
   `email` varchar(16) NOT NULL DEFAULT '',
   `address` varchar(64) NOT NULL DEFAULT '',
@@ -200,7 +202,6 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(16) NOT NULL DEFAULT '',
-  `password` varchar(16) NOT NULL DEFAULT '',
   `name` varchar(16) NOT NULL DEFAULT '',
   `gender` tinyint(4) NOT NULL DEFAULT '0' COMMENT '//1代表男，2代表女',
   `phone` varchar(16) NOT NULL DEFAULT '',
@@ -211,10 +212,25 @@ CREATE TABLE `user` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`) USING HASH
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for user_password
+-- ----------------------------
+DROP TABLE IF EXISTS `user_password`;
+CREATE TABLE `user_password` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(16) NOT NULL DEFAULT '',
+  `user_id` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_password
 -- ----------------------------
 
 -- ----------------------------
