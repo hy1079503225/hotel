@@ -1,4 +1,4 @@
 package com.hnist.hotel.service;
 
-public class NoticeService {
+public interface NoticeService {
 }

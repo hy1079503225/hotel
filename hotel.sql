@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-12-10 16:32:29
+Date: 2019-12-10 19:39:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,13 +21,13 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `check_in`;
 CREATE TABLE `check_in` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0',
   `order_id` int(11) NOT NULL DEFAULT '1',
   `hotel_id` int(11) NOT NULL DEFAULT '1',
   `room_id` int(11) NOT NULL DEFAULT '1',
   `room_number` varchar(8) NOT NULL DEFAULT '' COMMENT '房间号',
   `room_type` varchar(16) NOT NULL DEFAULT '' COMMENT '房间类型',
   `person_number` int(11) NOT NULL DEFAULT '1' COMMENT '入住人数',
-  `persons` varchar(255) NOT NULL DEFAULT '' COMMENT '入住人',
   `card_ids` varchar(255) NOT NULL DEFAULT '' COMMENT '身份证号',
   `check_in_time` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
   `chek_out_time` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
@@ -126,6 +126,10 @@ CREATE TABLE `order` (
   `order_cost` double NOT NULL DEFAULT '0' COMMENT '订单费用',
   `create_time` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
   `update_time` datetime DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_username` varchar(16) NOT NULL DEFAULT '',
+  `user_phone` varchar(16) NOT NULL DEFAULT '',
+  `user_cardid` varchar(18) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -210,6 +214,7 @@ CREATE TABLE `user` (
   `card_id` varchar(18) NOT NULL DEFAULT '',
   `create_time` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
   `update_time` datetime DEFAULT NULL,
+  `room_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`) USING HASH
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;

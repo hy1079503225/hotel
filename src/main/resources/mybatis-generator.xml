@@ -24,51 +24,51 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="user" domainObjectName="UserDO"
+        <table tableName="user" domainObjectName="User"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="user_password" domainObjectName="UserPasswordDO"
+        <table tableName="user_password" domainObjectName="UserPassword"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="comment" domainObjectName="CommentDO"
+        <table tableName="comment" domainObjectName="Comment"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="hotel" domainObjectName="HotelDO"
+        <table tableName="hotel" domainObjectName="Hotel"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="order" domainObjectName="OrderDO"
+        <table tableName="order" domainObjectName="Order"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="order_type" domainObjectName="OrderTypeDO"
+        <table tableName="order_type" domainObjectName="OrderType"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="room" domainObjectName="RoomDO"
+        <table tableName="room" domainObjectName="Room"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="room_type" domainObjectName="RoomTypeDO"
+        <table tableName="room_type" domainObjectName="RoomType"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="city" domainObjectName="CityDO"
+        <table tableName="city" domainObjectName="City"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="check_in" domainObjectName="CheckInDO"
+        <table tableName="check_in" domainObjectName="CheckIn"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="worker" domainObjectName="WorkerDO"
+        <table tableName="worker" domainObjectName="Worker"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="notice" domainObjectName="NoticeDO"
+        <table tableName="notice" domainObjectName="Notice"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>

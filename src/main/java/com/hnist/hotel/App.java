@@ -1,7 +1,5 @@
 package com.hnist.hotel;
 
-import com.hnist.hotel.dao.UserDOMapper;
-import com.hnist.hotel.pojo.UserDO;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
