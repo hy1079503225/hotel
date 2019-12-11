@@ -41,19 +41,15 @@ public class RoomServerImp implements RoomService {
         // 返回结果
         PageResult<Room> roomPageResult = new PageResult<>(pageInfo.getTotal(), pageInfo);
         //总页数
-        roomPageResult.setTotalPage((long) getPageNumber(pageParams.getLimit()));
+        roomPageResult.setTotalPage((long) (pageInfo.getTotal()%5==0?
+        pageInfo.getTotal()/pageInfo.getPageSize():pageInfo.getTotal()/pageInfo.getPageSize()+1));
+        System.out.println(roomMapper.getRoomTyte(1));
+        pageInfo.forEach(m->{
+            //m.setRoomTypes(roomMapper.getRoomTyte(m.getId()));
+        });
         return roomPageResult;
 
 
-    }
-    /**
-     * 获得总页数
-     * @param size
-     * @return
-     */
-    public int getPageNumber(int size){
-        int number = roomMapper.selectCount(null);
-        return number%size > 0 ? number/size+1 :number/size;
     }
 
 }
