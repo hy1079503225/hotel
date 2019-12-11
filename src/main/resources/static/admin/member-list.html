@@ -64,15 +64,14 @@
       <th>状态</th>
       <th>操作</th></tr>
     </thead>
-    <tbody>
-
+    <tbody id="userlist">
     <tr>
       <td>
         <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
       </td>
       <td>1</td>
-      <td>小明</td>
-      <td>晓明</td>
+      <td>稍等</td>
+      <td>稍等</td>
       <td>男</td>
       <td>13000000000</td>
       <td>admin@mail.com</td>
@@ -98,8 +97,6 @@
         </a>
       </td>
     </tr>
-
-
     </tbody>
   </table>
   <form class="page" method="post" action="/user/getUserList">
@@ -125,39 +122,66 @@
       contentType: "application/json; charset=utf-8",
       success: function (data) {
         var json = JSON.parse(data);
-        var  length=json.length;
-        console.log(json);
-        console.log(length);
-        var hotel="";
-        for (var i=0;i<length;i++){
-          var id=json[i].id;
-          var username = json[i].username;
-          var name = json[i].name;
+        var item = json["items"];
+        var  length=item.length;
 
-          var begin = "<tr>"
-          var
-          // var hotelcontentbegin=" <div class=\"hotel\">\n" +
-          //         "            <div class=\"hotel-img\" style=\"background-image: url('./images/hotel/" +json[i].hotelImg +"');\"></div>\n" +
-          //         "            <div class=\"hotel-bottom\">";
-          //
-          // var hotelcontentp=" <p class=\"hotel-name line2\">"+hotelname+"</p>";
-          //
-          // var hotelcontentend=" <div class=\"price-order\">\n" +
-          //         "                    <div class=\"hotel-price\">\n" +
-          //         "                        <p><span class=\"cny\">CNY</span>\n" +
-          //         "                            558\n" +
-          //         "                            <span class=\"start\">起</span></p>\n" +
-          //         "                    </div>\n" +
-          //         "                    <div class=\"book-btn\"><span class=\"order\"><a href=\"select.html?id="+json[i].id+"\">立即预定</a></span> <i class=\"arrow\"></i></div>\n" +
-          //         "                </div>\n" +
-          //         "            </div>\n" +
-          //         "        </div>";
-          // hotel+=hotelcontentbegin+hotelcontentp+hotelcontentend;
+        var userlist="";
+        for (var i=0;i<length;i++){
+          var id=item[i]["id"];
+          var username = item[i]["username"];
+          var name = item[i]["name"];
+          var gender = item[i]["gender"];
+          var phone = item[i]["phone"];
+          var email = item[i]["email"];
+          var address = item[i]["address"];
+          var cardId = item[i]["cardId"];
+          var createTime = renderTime(item[i]["createTime"]);
+          var updateTime = renderTime(item[i]["updateTime"]);
+
+          var html = "<tr>\n" +
+                  "<td>\n" +
+                  "        <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div>\n" +
+                  "      </td>\n" +
+                  "      <td>"+id+"</td>\n" +
+                  "      <td>"+username+"</td>\n" +
+                  "      <td>"+name+"</td>\n" +
+                  "      <td>"+gender+"</td>\n" +
+                  "      <td>"+phone+"</td>\n" +
+                  "      <td>"+email+"</td>\n" +
+                  "      <td>"+address+"</td>\n" +
+                  "      <td>"+cardId+"</td>\n" +
+                  "      <td>"+createTime+"</td>\n" +
+                  "      <td>"+updateTime+"</td>\n" +
+                  "      <td class=\"td-status\">\n" +
+                  "        <span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span>\n" +
+                  "      </td>\n" +
+                  "      <td class=\"td-manage\">\n" +
+                  "        <a onclick=\"member_stop(this,'10001')\" href=\"javascript:;\"  title=\"启用\">\n" +
+                  "          <i class=\"layui-icon\">&#xe601;</i>\n" +
+                  "        </a>\n" +
+                  "        <a title=\"编辑\"  onclick=\"x_admin_show('编辑','member-edit.html',600,400)\" href=\"javascript:;\">\n" +
+                  "          <i class=\"layui-icon\">&#xe642;</i>\n" +
+                  "        </a>\n" +
+                  "        <a onclick=\"x_admin_show('修改密码','member-password.html',600,400)\" title=\"修改密码\" href=\"javascript:;\">\n" +
+                  "          <i class=\"layui-icon\">&#xe631;</i>\n" +
+                  "        </a>\n" +
+                  "        <a title=\"删除\" onclick=\"member_del(this,'要删除的id')\" href=\"javascript:;\">\n" +
+                  "          <i class=\"layui-icon\">&#xe640;</i>\n" +
+                  "        </a>\n" +
+                  "      </td>" +
+                  "    </tr>"
+          userlist += html;
         }
-        $("#hotel").empty();
-        $("#hotel").html(hotel);
+        $("#userlist").empty();
+        $("#userlist").html(userlist);
       }
     })
+  };
+  //把读出来的json格式时间传入这个方法内
+  function renderTime(date){
+    var datestring = date.toString();
+    var da = new Date(parseInt(datestring.replace("/Date(","").replace(")/","").split("+")[0]));
+    return da.getFullYear()+"-"+ (da.getMonth()+1)+"-" +da.getDate()+" " +da.getHours()+":"+da.getSeconds()+":"+da.getMinutes();
   };
 </script>
 

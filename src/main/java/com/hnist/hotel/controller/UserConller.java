@@ -28,7 +28,6 @@ public class UserConller {
 
     @RequestMapping("getUserList")
     @ResponseBody
-//    public ResponseEntity<PageResult<User>> getUserList(@RequestParam(value="page")Integer page){
     public String getUserList(@RequestParam(value="page")Integer page){
         if(page == null){
             page = 1;
@@ -45,22 +44,14 @@ public class UserConller {
         PageResult<User> pageResult= userService.getUserList(pageParams);
         pageResult.setCurrPage((long)page);
 
-        List<User> userList = new ArrayList<>();
-
-        for (int i = 0 ; i < pageResult.getItems().size();i++){
-            userList.add(pageResult.getItems().get(i));
-            System.out.println("i--"+i+"---" + userList.get(i));
-        }
-
         try {
             //格式转换
-            String string = objectMapper.writeValueAsString(pageResult);
-//            System.out.println(page + "--- userPageResult ----" + string + "---jsonObj--" );
-            return string;
+            String jsonString = objectMapper.writeValueAsString(pageResult);
+            System.out.println(page + "--- userPageResult ----" + jsonString + "---jsonObj--" );
+            return jsonString;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

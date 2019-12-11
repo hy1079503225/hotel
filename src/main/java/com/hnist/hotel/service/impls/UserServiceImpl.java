@@ -9,7 +9,6 @@ import com.hnist.hotel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.hnist.hotel.pojo.PageParams;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 @Service
 public class UserServiceImpl implements UserService {
