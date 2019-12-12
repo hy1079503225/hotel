@@ -101,24 +101,25 @@
   </table>
   <form class="page" method="post" action="/user/getUserList">
     <div>
-      <a class="prev" href="">&lt;&lt;</a>
+      <a class="prev" href="" id="firstPage">&lt;&lt;</a>
       <a class="num" href="" name="page">1</a>
-      <span class="current">2</span>
+      <span class="current" id="currentPage">2</span>
       <a class="num" href="">3</a>
       <a class="num" href="">489</a>
-      <a class="next" href="">&gt;&gt;</a>
+      <a class="next" href="" id="lastPage">&gt;&gt;</a>
     </div>
   </form>
 
 </div>
 <script>
+  var currentPage = 1;
   $(function () {
     load();
   });
   function load() {
     $.ajax({
       type: "post",//方法类型
-      url:  "/user/getUserList?page=1",//url
+      url:  "/user/getUserList?page="+currentPage,//url
       contentType: "application/json; charset=utf-8",
       success: function (data) {
         var json = JSON.parse(data);
