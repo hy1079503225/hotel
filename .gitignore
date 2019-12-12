@@ -12,6 +12,9 @@ src/main/resources/application.properties
 # 项目iml文件
 hotel.iml
 
+# 项目pom文件
+pom.xml
+
 # 编译文件
 *.class
 
