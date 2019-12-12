@@ -12,27 +12,54 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @KeySql(useGeneratedKeys = true)
-
     private Integer id;
 
     @Column(name="hotel_id")
     private Integer hotelId;
 
+    @Column(name="state")
+    private Integer state;
     @Column(name="hotel_name")
     private String hotelName;
     //房间号码
-    @Column(name="room_numbert")
+    @Column(name="room_id")
     private String roomNumber;
-//    // 面积
-//    private Integer area;
-//    //备注
-//    private String remark;
+
+
+  @Column(name = "type_id")
+   private Integer typeId;
+    @Column(name = "room_type")
+    private String roomType;
 @Column(name="room_img")
     private String roomImg;
     @Column(name="create_time")
     private Date createTime;
     @Column(name="update_time")
     private Date updateTime;
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
 //    private Integer typeId;
 //    private String roomType;
    // private Double roomPrice;
@@ -41,16 +68,8 @@ public class Room {
     //房间状态
    // private Byte roomStatus;
 
-    @Transient
-    List<RoomType> roomTypes;
 
-    public void setRoomTypes(List<RoomType> roomTypes) {
-        this.roomTypes = roomTypes;
-    }
 
-    public List<RoomType> getRoomTypes() {
-        return roomTypes;
-    }
 
     public Integer getId() {
         return id;

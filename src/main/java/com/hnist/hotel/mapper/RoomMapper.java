@@ -1,7 +1,11 @@
 package com.hnist.hotel.mapper;
 
 import com.hnist.hotel.pojo.Room;
+import com.hnist.hotel.pojo.RoomType;
+import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * @Filename
@@ -13,4 +17,10 @@ import tk.mybatis.mapper.common.Mapper;
  * @History
  */
 public interface RoomMapper extends Mapper<Room> {
+
+    @Select("select roomtype_id from room_roomtypr where room_id=#{roomId}")
+    List<Integer> getRoomTyte(Integer roomId);
+
+    @Select("select room_type from room_type where id=#{roomId}")
+    String getRoomName(Integer roomTyteId);
 }

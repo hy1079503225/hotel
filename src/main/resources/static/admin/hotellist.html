@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>欢迎页面-X-admin2.0</title>
@@ -16,8 +17,6 @@
   <!--[if lt IE 9]>
   <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
   <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-
-
   <![endif]-->
 </head>
 
@@ -32,19 +31,19 @@
   <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
     <i class="layui-icon" style="line-height:30px">ဂ</i></a>
 </div>
-<div class="x-body"  id="roomApp">
+<div class="x-body">
   <div class="layui-row">
-    <!--<form class="layui-form layui-col-md12 x-so">-->
-      <!--&lt;!&ndash;<input class="layui-input" placeholder="开始日" name="start" id="start">-->
-      <!--<input class="layui-input" placeholder="截止日" name="end" id="end">&ndash;&gt;-->
-      <!--<input type="text" name="username"  placeholder="请输入身份证" autocomplete="off" class="layui-input">-->
-      <!--<button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>-->
-    <!--</form>-->
+    <form class="layui-form layui-col-md12 x-so">
+      <!--<input class="layui-input" placeholder="开始日" name="start" id="start">
+      <input class="layui-input" placeholder="截止日" name="end" id="end">-->
+      <input type="text" name="username"  placeholder="请输入身份证" autocomplete="off" class="layui-input">
+      <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+    </form>
   </div>
   <xblock>
     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-    <button class="layui-btn" onclick="x_admin_show('添加用户','./roomadd.html')"><i class="layui-icon"></i>添加</button>
-    <span class="x-right" style="line-height:40px">共有数据：{{this.total}}条</span>
+    <button class="layui-btn" onclick="x_admin_show('添加用户','./hoteladd.html')"><i class="layui-icon"></i>添加</button>
+    <span class="x-right" style="line-height:40px">共有数据：88 条</span>
   </xblock>
   <table class="layui-table">
     <thead>
@@ -52,150 +51,58 @@
       <th>
         <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
       </th>
+      <th>酒店id</th>
+      <th>酒店图片</th>
       <th>酒店名字</th>
-      <th>房间号</th>
-      <th>房间类型</th>
-      <th>房间类型</th>
-      <th>房间状态</th>
-      <th>房间图片</th>
+      <th>城市</th>
+      <th>酒店电话</th>
+      <th>酒店email</th>
+      <th>酒店地址</th>
+      <th>酒店网址</th>
       <th>创建时间</th>
       <th>更新时间</th>
       <th >操作</th>
     </tr>
     </thead>
-    <tbody  v-for="room in roomList" :key="room.id">
-
+    <tbody>
     <tr>
       <td>
         <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
       </td>
-      <td v-text="room.hotelName"></td>
-      <td v-text="room.roomNumber"></td>
-      <!--类型-->
-      <td v-text="room.roomType"></td>
-      <td v-text="room.state=0?'入住中':'空闲'"></td>
-      <td><img :src="room.roomImg" ></td>
-      <td v-text="room.createTime"></td>
-      <td v-text="room.updateTime"></td>
+      <td>2017009171822298053</td>
+      <td>老王:18925139194</td>
+      <td>7829.10</td>
+      <td>7854.10</td>
+      <td>待确认</td>
+      <td>未支付</td>
+      <td>未发货</td>
+      <td>其他方式</td>
+      <td>申通物流</td>
+      <td>2017-08-17 18:22</td>
 
       <td class="td-manage">
-        <!--              <a title="修改"  onclick="x_admin_show('修改','order-update.html')" href="javascript:;">-->
-        <!--                <i class="layui-icon">&#xe63c;</i>-->
-        <!--              </a>-->
+        <a title="修改"  onclick="x_admin_show('修改','hotelupdate.html')" href="javascript:;">
+          <i class="layui-icon">&#xe63c;</i>
+        </a>
         <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
           <i class="layui-icon">&#xe640;</i>
         </a>
       </td>
     </tr>
-
     </tbody>
   </table>
   <div class="page">
     <div>
-      <a class="prev"  @click="deletePage()">&lt;&lt;</a>
-      <span class="current" v-text="this.search.page"></span>
-      <a class="next"  @click="addPage()">&gt;&gt;</a> 共{{this.totalPage}}页
+      <a class="prev" href="">&lt;&lt;</a>
+      <a class="num" href="">1</a>
+      <span class="current">2</span>
+      <a class="num" href="">3</a>
+      <a class="num" href="">489</a>
+      <a class="next" href="">&gt;&gt;</a>
     </div>
   </div>
 
 </div>
-<script src="js/vue.js"></script>
-
-<script src="js/vue-resource.js"></script>
-<script>
-
-  var roomApp=new Vue({
-    el: "#roomApp",    // 元素
-    data: {
-      search: {
-        userId: 1,
-        page: 1,
-      },
-      totalPage: 0,
-      total:0,
-      roomList: [],
-      holeName:"",
-      // sixSinger:[],
-    },
-    created() {
-
-      // this.search.holtId=location.search.split("=")[1];
-      this.ajaxGoPageSearch();
-      //this.ajaxGoGetSixSinger();
-    },
-    // watch: {
-    //     search: {
-    //         deep: true,
-    //         handler(val, old) {
-    //             this.ajaxGoPageSearch();
-    //         }
-    //     }
-    //
-    // },
-    methods:{
-      ajaxGoPageSearch(){
-        this.$http.post("http://127.0.0.1:8089/room/getAdminHotelrooms",this.search).then(
-                function (res) {
-                  if (res.status==200){
-                    this.totalPage=res.data.totalPage;
-                    this.total=res.data.total;
-                    this.roomList=res.data.items;
-                    this.holeName=this.roomList[0].hotelName;
-                    console.log(this.roomList)
-                  }
-                },function (res) {
-
-                }
-        );
-      },
-      addPage(){
-        if (this.search.page==this.totalPage){
-          return;
-        }else {
-          this.search.page=this.search.page+1;
-          this.ajaxGoPageSearch()
-        }
-
-      } ,
-      deletePage(){
-        if (this.search.page==1){
-          return;
-        } else {
-          this.search.page=this.search.page-1;
-          this.ajaxGoPageSearch()
-        }
-      },
-      // tiaozhuan(id){
-      //     window.location.href="singerInfo.html?sid="+id;
-      // },
-      // ajaxGoGetSixSinger(){
-      //     this.$http.post("http://127.0.0.1:8888/singer/getSixSinger").then(
-      //         function (res) {
-      //
-      //             if (res.status==200){
-      //
-      //                 this.sixSinger=res.data;
-      //             }
-      //
-      //         },function (res) {
-      //
-      //         }
-      //     );
-      // },
-      ajaxtoinfo(roomId,tyteName){
-        alert(roomId+tyteName)
-
-      },
-      ajaxtoinfo2(roomId,tyteName){
-        alert(roomId+tyteName+"双击")
-
-      },
-    },
-
-  })
-
-
-</script>
 <script>
   layui.use('laydate', function(){
     var laydate = layui.laydate;
@@ -244,6 +151,8 @@
     });
   }
 
+
+
   function delAll (argument) {
 
     var data = tableCheck.getData();
@@ -261,10 +170,6 @@
   var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
 })();</script>
-
-
-
-
 </body>
 
 </html>

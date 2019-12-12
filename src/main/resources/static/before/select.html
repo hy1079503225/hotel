@@ -53,47 +53,50 @@
         </nav><!--/nav-->
     </header><!--/header-->
 
-
+<div id="roomApp">
 <section id="portfolio">
-        <div class="container">
+        <div class="container" >
 
             <div class="section-header">
-                <h2 class="section-title wow fadeInDown">XXXX酒店</h2>
+                <h2 class="section-title wow fadeInDown">{{this.holeName}}酒店</h2>
                 <hr>
             </div>
             <div class="new-list">
 
-                <div class="news-list-item room-style" clearfix>
+                <div  v-for="room in roomList" :key="room.id"  class="news-list-item room-style" clearfix >
                     <div class="col-xs-4">
-                        <img src="images/portfolio/01.jpg" alt="item01" class="img-size">
+                        <img :src="room.imgUrl" alt="item01" class="img-size">
                     </div>
                     <div class="col-xs-6">
-                        <h3>Xname</h3>
+                        <h3 v-text="room.typeName"></h3>
                         <div class="col-sm-6">
                             <p>酒店客房面积</p>
-                            <p>X 平方米</p>
+                            <p v-text="room.area"></p>
                             <h4>剩余房间数量：</h4>
-                            <p>X</p>
+                            <p v-text="room.num"></p>
                         </div>
                         <div class="col-sm-6">
                             <p>描述</p>
-                            <p>描述test</p>
+                            <p v-text="room.window"></p>
                         </div>
                     </div>
                     <div class="col-xs-2">
                         房价:
-                        <h3>CNY 0,00</h3>
-                        <h4>选择床型：</h4>
-                        <input type="button" value="大床房" class="btn-primary btn-block">
-                        <input type="button" value="标准间" class="btn-primary btn-block">
-                        <input type="button" value="圆床房" class="btn-primary btn-block">
+                        <h3 v-text="room.price"></h3>
+                        <h4>床型：</h4>
+                            <input
+                                      type="button" v-model="room.bedType" class="btn-primary btn-block">
+                        <input   @click="tiaozhuan(room.id,room.num)"
+                                 type="button" value="预定" class="btn-primary btn-block">
                     </div>
                 </div>
 
             </div>
-            <button>上一页</button><button>下一页</button>
+            当前第{{this.search.page}}页 <button style="background:#FFE153;width: 250px;height: 30px;border-radius: 18px" @click="deletePage()">上一页</button><button @click="addPage()" style="background:#FFE153;width: 250px;height: 30px;border-radius: 18px">下一页</button>共{{this.totalPage}}页
+            ,记录数{{this.total}}
         </div><!--/.container-->
     </section><!--/#portfolio-->
+</div>
 
     <footer id="footer">
         <div class="container">
@@ -125,5 +128,100 @@
     <script type="text/javascript" src="js/jquery.slitslider.js"></script>
 	<script type="text/javascript" src="js/slitslider-custom.js"></script>
     <script src="js/custom-scripts.js"></script>
+
+
+    <script src="js/vue.js"></script>
+
+    <script src="js/vue-resource.js"></script>
+    <script>
+        var roomApp=new Vue({
+            el: "#roomApp",    // 元素
+            data: {
+                search: {
+                    holtId: "",
+                    page: 1,
+                },
+                totalPage: 0,
+                total:0,
+                roomList: [],
+                holeName:"",
+               // sixSinger:[],
+            },
+            created() {
+                this.search.holtId=location.search.split("=")[1];
+                this.ajaxGoPageSearch();
+                //this.ajaxGoGetSixSinger();
+            },
+            // watch: {
+            //     search: {
+            //         deep: true,
+            //         handler(val, old) {
+            //             this.ajaxGoPageSearch();
+            //         }
+            //     }
+            //
+            // },
+            methods:{
+                ajaxGoPageSearch(){
+                    this.$http.post("http://127.0.0.1:8089/room/getHotelrooms",this.search).then(
+                        function (res) {
+                            if (res.status==200){
+                                this.totalPage=res.data.totalPage;
+                                this.total=res.data.total;
+                                this.roomList=res.data.items;
+                                this.holeName=this.roomList[0].hotelName;
+                                console.log(this.roomList[0])
+                            }
+                        },function (res) {
+
+                        }
+                    );
+                },
+                addPage(){
+                    if (this.search.page==this.totalPage){
+                        return;
+                    }else {
+                        this.search.page=this.search.page+1;
+                        this.ajaxGoPageSearch()
+                    }
+
+                } ,
+                deletePage(){
+                    if (this.search.page==1){
+                        return;
+                    } else {
+                        this.search.page=this.search.page-1;
+                        this.ajaxGoPageSearch()
+                    }
+                },
+                tiaozhuan(id,num){
+                    if (num<1){
+                        alert("可预定房间不足")
+                        return;
+                    }
+                    window.location.href="orderend.html?id="+id;
+                },
+
+                ajaxtoinfo(roomId,tyteName){
+                    alert(roomId+tyteName)
+
+                },
+                ajaxtoinfo2(roomId,tyteName){
+                    alert(roomId+tyteName+"双击")
+
+                },
+            },
+
+
+
+
+
+
+
+        })
+
+
+    </script>
+
 </body>
 </html>

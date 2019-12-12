@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.0</title>
@@ -23,76 +24,77 @@
 <div class="x-body">
     <form class="layui-form">
         <div class="layui-form-item">
-            <label for="roomtype" class="layui-form-label">
-                <span class="x-red">*</span>房间类型
+            <label for="hotelimg" class="layui-form-label">
+                <span class="x-red">*</span>酒店图片
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="roomtype" name="roomtype" required="" lay-verify="required"
+                <input type="file" id="hotelimg" name="hotelimg" required="" lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="hotelname" class="layui-form-label">
+                <span class="x-red">*</span>酒店名字
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="hotelname" name="hotelname" required="" lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="city" class="layui-form-label">
+                <span class="x-red">*</span>城市
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="city" name="city" required="" lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">
+                <span class="x-red">*</span>酒店电话
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="phone" name="phone" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="bednumber" class="layui-form-label">
-                <span class="x-red">*</span>床的数量
+            <label for="email" class="layui-form-label">
+                <span class="x-red">*</span>酒店邮箱
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="bednumber" name="bednumber" required="" lay-verify="required"
+                <input type="text" id="email" name="email" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="bedsize" class="layui-form-label">
-                <span class="x-red">*</span>床的大小
+            <label for="address" class="layui-form-label">
+                <span class="x-red">*</span>酒店地址
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="bedsize" name="bedsize" required="" lay-verify="required"
+                <input type="text" id="address" name="address" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="window" class="layui-form-label">
-                <span class="x-red">*</span>窗户
+            <label for="website" class="layui-form-label">
+                <span class="x-red">*</span>酒店网址
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="window" name="window" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="area" class="layui-form-label">
-                <span class="x-red">*</span>面积
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="area" name="area" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <!--          <div class="layui-form-item">-->
-        <!--                <label for="roomaccount" class="layui-form-label">-->
-        <!--                    <span class="x-red">*</span>房间数量-->
-        <!--                </label>-->
-        <!--                <div class="layui-input-inline">-->
-        <!--                    <input type="text" id="roomaccount" name="roomaccount" required="" lay-verify="required"-->
-        <!--                           autocomplete="off" class="layui-input">-->
-        <!--                </div>-->
-        <!--          </div>-->
-        <div class="layui-form-item">
-            <label for="remark" class="layui-form-label">
-                <span class="x-red">*</span>备注
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="remark" name="remark" required="" lay-verify="required"
+                <input type="text" id="website" name="website" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="add" class="layui-form-label"></label>
-            <button  id="add" class="layui-btn" lay-filter="add" lay-submit="添加">
-                添加
+            <label for="add" class="layui-form-label">
+            </label>
+            <button  id="add" class="layui-btn" lay-filter="add" lay-submit="">
+                增加
             </button>
         </div>
     </form>
