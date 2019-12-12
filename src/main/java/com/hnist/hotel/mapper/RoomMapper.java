@@ -20,4 +20,7 @@ public interface RoomMapper extends Mapper<Room> {
 
     @Select("select roomtype_id from room_roomtypr where room_id=#{roomId}")
     List<Integer> getRoomTyte(Integer roomId);
+
+    @Select("select room_type from room_type where id=#{roomId}")
+    String getRoomName(Integer roomTyteId);
 }
