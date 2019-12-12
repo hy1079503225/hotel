@@ -37,8 +37,16 @@ public class UserServiceImpl implements UserService {
         Example example=new Example(User.class);
         example.createCriteria().andEqualTo("id",userid);
 
-        int result = userMapper.deleteByExample(example);
-        return result;
+        return userMapper.deleteByExample(example);
+    }
+
+    @Override
+    public Integer updateUserById(Integer userid, User user) {
+        //过滤条件
+        Example example=new Example(User.class);
+        example.createCriteria().andEqualTo("id",userid);
+
+        return userMapper.updateByExampleSelective(user,example);
     }
 
     /**

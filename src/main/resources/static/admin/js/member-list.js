@@ -1,11 +1,8 @@
-function loadSingerData(currentPage) {
-
+function loadSingerData(currentpage) {
     $.post(
-        "/user/getUserList?page=" + currentPage,//url
-        {}, function (data){
+        "http://localhost:8089/user/getUserList",//url
+        {"currentpage":1,"userid":3}, function (data){
             var json = JSON.parse(data);
-            var total = json["total"];
-            currentPage = json["currPage"];
             var item = json["items"];
             var length = item.length;
 
@@ -21,8 +18,6 @@ function loadSingerData(currentPage) {
                 var cardId = item[i]["cardId"];
                 var createTime = renderTime(item[i]["createTime"]);
                 var updateTime = renderTime(item[i]["updateTime"]);
-                // var createTime = item[i]["createTime"];
-                // var updateTime = item[i]["updateTime"];
 
                 var html = "<tr>\n" +
                     "<td>\n" +
@@ -48,9 +43,6 @@ function loadSingerData(currentPage) {
                     "        <a title=\"编辑\"  onclick=\"x_admin_show('编辑','member-edit.html',600,400)\" href=\"javascript:;\">\n" +
                     "          <i class=\"layui-icon\">&#xe642;</i>\n" +
                     "        </a>\n" +
-                    "        <a onclick=\"x_admin_show('修改密码','member-password.html',600,400)\" title=\"修改密码\" href=\"javascript:;\">\n" +
-                    "          <i class=\"layui-icon\">&#xe631;</i>\n" +
-                    "        </a>\n" +
                     "        <a title=\"删除\" onclick=\"del(" + id + ")\" href=\"javascript:;\">\n" +
                     "          <i class=\"layui-icon\">&#xe640;</i>\n" +
                     "        </a>\n" +
@@ -58,14 +50,19 @@ function loadSingerData(currentPage) {
                     "    </tr>"
                 userlist += html;
             }
+            //用户数据列表
             $("#userlist").empty();
             $("#userlist").html(userlist);
 
+            //当前页
             $("#currentPage").empty();
-            $("#currentPage").html(currentPage);
+            $("#currentPage").html(json["currPage"]);
+            //总数据
+            $("#total").empty();
+            $("#total").html("总数据量"+json["total"]);
 
+            //翻页
             $("#pagerutil").empty();
-
             var pager = " <a href=\"#\" onclick=\"loadSingerData(1)\" style=\"color:#000\">首页</a>\n" +
                 "            <a href=\"#\" onclick=\"loadSingerData(" + (json["currPage"] - 1) + ")\" style=\"color:#000\">上页</a>\n" +
                 "            <a href=\"#\" style=\"color:#000\">" + json["currPage"] + "/" + json["totalPage"] + "</a>\n" +
@@ -89,12 +86,13 @@ function renderTime(date){
 };
 
 //删
-function del(userid) {
-
+function del(id) {
+    //id:要删除用户的id
+    //userid：当前用户id，预留字段，做权限用
     if(window.confirm("确定删除？")){
         $.post(
-            "/user/deleteUserById?userid=" + userid,
-            {},
+            "/user/deleteUserById",
+            {"userid":3,"id":id},
             function (data) {
                 console.log("--getUserList-- "+data)
                 if (data == "false") {
@@ -108,10 +106,10 @@ function del(userid) {
     }
 }
 
-// //改
-// function modify(userid) {
-//     window.location.href = "./modify.html?userid=" + userid;
-// }
+//改
+function modify(userid) {
+    window.location.href = "./modify.html?userid=" + userid;
+}
 
 //查
 // function querySingerNames() {
