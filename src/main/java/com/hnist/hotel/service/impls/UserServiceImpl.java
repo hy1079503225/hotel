@@ -9,6 +9,7 @@ import com.hnist.hotel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.hnist.hotel.pojo.PageParams;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,6 +30,17 @@ public class UserServiceImpl implements UserService {
 
         return userPageResult;
     }
+
+    @Override
+    public Integer deleteUserById(Integer userid) {
+        //过滤条件
+        Example example=new Example(User.class);
+        example.createCriteria().andEqualTo("id",userid);
+
+        int result = userMapper.deleteByExample(example);
+        return result;
+    }
+
     /**
      * 获得总页数
      * @param size

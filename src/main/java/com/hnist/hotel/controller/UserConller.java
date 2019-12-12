@@ -26,6 +26,11 @@ public class UserConller {
     @Autowired
     UserService userService;
 
+    /**
+     * 获取用户列表
+     * @param page
+     * @return
+     */
     @RequestMapping("getUserList")
     @ResponseBody
     public String getUserList(@RequestParam(value="page")Integer page){
@@ -53,5 +58,19 @@ public class UserConller {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 根据id删除用户
+     * @param userid
+     * @return
+     */
+    @RequestMapping("deleteUserById")
+    @ResponseBody
+    public String deleteUserById(@RequestParam(value="userid")Integer userid){
+        if(userid==null) return null;
+        System.out.println("--deleteUserById--");
+        return userService.deleteUserById(userid)>0
+                ? "true" : "false";
     }
 }

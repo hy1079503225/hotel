@@ -99,92 +99,17 @@
     </tr>
     </tbody>
   </table>
-  <form class="page" method="post" action="/user/getUserList">
-    <div>
-      <a class="prev" href="" id="firstPage">&lt;&lt;</a>
-      <a class="num" href="" name="page">1</a>
-      <span class="current" id="currentPage">2</span>
-      <a class="num" href="">3</a>
-      <a class="num" href="">489</a>
-      <a class="next" href="" id="lastPage">&gt;&gt;</a>
+  <form class="page" method="post" action="/user/getUserList" id ="pagerutil1">
+    <div id ="pagerutil">
+        <a href="#" style="color:#000">首页</a>
+        <a href="#" style="color:#000">上页</a>
+        <a href="#" style="color:#000">1/3</a>
+        <a href="#" style="color:#000">下页</a>
+        <a href="#" style="color:#000">尾页</a>
     </div>
   </form>
 
 </div>
-<script>
-  var currentPage = 1;
-  $(function () {
-    load();
-  });
-  function load() {
-    $.ajax({
-      type: "post",//方法类型
-      url:  "/user/getUserList?page="+currentPage,//url
-      contentType: "application/json; charset=utf-8",
-      success: function (data) {
-        var json = JSON.parse(data);
-        var item = json["items"];
-        var  length=item.length;
-
-        var userlist="";
-        for (var i=0;i<length;i++){
-          var id=item[i]["id"];
-          var username = item[i]["username"];
-          var name = item[i]["name"];
-          var gender = item[i]["gender"];
-          var phone = item[i]["phone"];
-          var email = item[i]["email"];
-          var address = item[i]["address"];
-          var cardId = item[i]["cardId"];
-          var createTime = renderTime(item[i]["createTime"]);
-          var updateTime = renderTime(item[i]["updateTime"]);
-
-          var html = "<tr>\n" +
-                  "<td>\n" +
-                  "        <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div>\n" +
-                  "      </td>\n" +
-                  "      <td>"+id+"</td>\n" +
-                  "      <td>"+username+"</td>\n" +
-                  "      <td>"+name+"</td>\n" +
-                  "      <td>"+gender+"</td>\n" +
-                  "      <td>"+phone+"</td>\n" +
-                  "      <td>"+email+"</td>\n" +
-                  "      <td>"+address+"</td>\n" +
-                  "      <td>"+cardId+"</td>\n" +
-                  "      <td>"+createTime+"</td>\n" +
-                  "      <td>"+updateTime+"</td>\n" +
-                  "      <td class=\"td-status\">\n" +
-                  "        <span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span>\n" +
-                  "      </td>\n" +
-                  "      <td class=\"td-manage\">\n" +
-                  "        <a onclick=\"member_stop(this,'10001')\" href=\"javascript:;\"  title=\"启用\">\n" +
-                  "          <i class=\"layui-icon\">&#xe601;</i>\n" +
-                  "        </a>\n" +
-                  "        <a title=\"编辑\"  onclick=\"x_admin_show('编辑','member-edit.html',600,400)\" href=\"javascript:;\">\n" +
-                  "          <i class=\"layui-icon\">&#xe642;</i>\n" +
-                  "        </a>\n" +
-                  "        <a onclick=\"x_admin_show('修改密码','member-password.html',600,400)\" title=\"修改密码\" href=\"javascript:;\">\n" +
-                  "          <i class=\"layui-icon\">&#xe631;</i>\n" +
-                  "        </a>\n" +
-                  "        <a title=\"删除\" onclick=\"member_del(this,'要删除的id')\" href=\"javascript:;\">\n" +
-                  "          <i class=\"layui-icon\">&#xe640;</i>\n" +
-                  "        </a>\n" +
-                  "      </td>" +
-                  "    </tr>"
-          userlist += html;
-        }
-        $("#userlist").empty();
-        $("#userlist").html(userlist);
-      }
-    })
-  };
-  //把读出来的json格式时间传入这个方法内
-  function renderTime(date){
-    var datestring = date.toString();
-    var da = new Date(parseInt(datestring.replace("/Date(","").replace(")/","").split("+")[0]));
-    return da.getFullYear()+"-"+ (da.getMonth()+1)+"-" +da.getDate()+" " +da.getHours()+":"+da.getSeconds()+":"+da.getMinutes();
-  };
-</script>
 
 <script>
   layui.use('laydate', function(){
@@ -248,6 +173,8 @@
   var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
 })();</script>
+
+<script src="js/member-list.js"></script>
 </body>
 
 </html>
