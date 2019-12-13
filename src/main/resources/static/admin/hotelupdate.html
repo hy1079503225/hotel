@@ -18,11 +18,13 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 
 <body>
 <div class="x-body">
-    <form class="layui-form">
+    <form class="layui-form" enctype="multipart/form-data" action="/hotel/addhotel">
+        <input type="text" hidden class="hotelid">
         <div class="layui-form-item">
             <label for="hotelimg" class="layui-form-label">
                 <span class="x-red">*</span>酒店图片
@@ -93,12 +95,41 @@
         <div class="layui-form-item">
             <label for="add" class="layui-form-label">
             </label>
-            <button  id="add" class="layui-btn" lay-filter="add" lay-submit="">
+            <button type="submit" id="add" class="layui-btn" lay-filter="add" lay-submit="">
                 增加
             </button>
         </div>
     </form>
 </div>
+
+<script>
+    $(function () {
+        set();
+    });
+
+    function set() {
+        var url=location.search;
+        url=url.split('?')[1];
+        url=url.split('=')[1];
+        $.post(
+            "/hotel/loadhotelone",
+            {hotelid:url},
+        function (data) {
+               var json= JSON.parse(data);
+          console.log(json);
+              $(".hotelid").val(json.id);
+             $("#hotelname").val(json.hotelName);
+             $("#phone").val(json.phone);
+             $("#city").val(json.city);
+             $("#address").val(json.address);
+             $("#website").val(json.website);
+             $("#email").val(json.email);
+        }
+        );
+    }
+</script>
+
+
 <script>
     layui.use(['form','layer'], function(){
         $ = layui.jquery;
