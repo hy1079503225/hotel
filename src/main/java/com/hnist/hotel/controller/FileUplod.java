@@ -42,13 +42,13 @@ public class FileUplod   {
         String type=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+ 1, file.getOriginalFilename().length());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmss");
         Random r=new Random();String imgName = "";
-        if ("jpg".equals(type)) {
+        if ("jpg".equals(type.toLowerCase())) {
             imgName = sdf.format(new Date()) + r.nextInt(100) + ".jpg";
-        } else if ("png".equals(type)) {
+        } else if ("png".equals(type.toLowerCase())) {
             imgName = sdf.format(new Date()) + r.nextInt(100) + ".png";
-        } else if ("jpeg".equals(type)) {
+        } else if ("jpeg".equals(type.toLowerCase())) {
             imgName = sdf.format(new Date()) + r.nextInt(100) + ".jpeg";
-        } else if ("gif".equals(type)) {
+        } else if ("gif".equals(type.toLowerCase())) {
             imgName = sdf.format(new Date()) + r.nextInt(100) + ".gif";
         } else {
            // return ResponseEntity.status(500).body("格式错误");
