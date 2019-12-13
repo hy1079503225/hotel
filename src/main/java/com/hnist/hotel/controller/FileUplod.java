@@ -59,7 +59,7 @@ public class FileUplod   {
 
         //写入文件
         file.transferTo(new File(dir, imgName));
-        url.add("upload/"+imgName);
+        url.add("/upload/"+imgName);
         return ResponseEntity.ok(url);
        // return "upload/"+imgName;
     }
@@ -91,7 +91,7 @@ public class FileUplod   {
             String dir=aStatic+File.separator+"upload"+File.separator;; //将虚拟路径转化为实际路径并在定位的子目录当中
             //
             FileUtils.writeByteArrayToFile(new File(dir, fileName), file.getBytes());
-            return ResponseEntity.ok("upload/"+fileName);
+            return ResponseEntity.ok("/upload/"+fileName);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(500).body("文件上传失败");
