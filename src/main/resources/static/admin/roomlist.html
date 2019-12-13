@@ -55,7 +55,6 @@
       <th>酒店名字</th>
       <th>房间号</th>
       <th>房间类型</th>
-      <th>房间类型</th>
       <th>房间状态</th>
       <th>房间图片</th>
       <th>创建时间</th>
@@ -82,7 +81,7 @@
         <!--              <a title="修改"  onclick="x_admin_show('修改','order-update.html')" href="javascript:;">-->
         <!--                <i class="layui-icon">&#xe63c;</i>-->
         <!--              </a>-->
-        <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <a title="删除" @click="member_del(room.id)" href="javascript:;">
           <i class="layui-icon">&#xe640;</i>
         </a>
       </td>
@@ -168,29 +167,24 @@
       // tiaozhuan(id){
       //     window.location.href="singerInfo.html?sid="+id;
       // },
-      // ajaxGoGetSixSinger(){
-      //     this.$http.post("http://127.0.0.1:8888/singer/getSixSinger").then(
-      //         function (res) {
-      //
-      //             if (res.status==200){
-      //
-      //                 this.sixSinger=res.data;
-      //             }
-      //
-      //         },function (res) {
-      //
-      //         }
-      //     );
-      // },
-      ajaxtoinfo(roomId,tyteName){
-        alert(roomId+tyteName)
+      member_del(roomId){
+        if(confirm("确实要删除吗？")){
+          this.$http.post("http://127.0.0.1:8089/room/delectAdminHotelroom/"+roomId).then(
+                  function (res) {
+                    if (res.status==200){
+                      layer.msg('已删除!',{icon:1,time:1000});
+                      this.search.page=1;
+                      this.ajaxGoPageSearch();
+                    }
+                  },function (res) {
+
+                  }
+          );
+        }
 
       },
-      ajaxtoinfo2(roomId,tyteName){
-        alert(roomId+tyteName+"双击")
 
-      },
-    },
+  },
 
   })
 
@@ -235,14 +229,14 @@
     });
   }
 
-  /*用户-删除*/
-  function member_del(obj,id){
-    layer.confirm('确认要删除吗？',function(index){
-      //发异步删除数据
-      $(obj).parents("tr").remove();
-      layer.msg('已删除!',{icon:1,time:1000});
-    });
-  }
+  // /*用户-删除*/
+  // function member_del(obj,id){
+  //   layer.confirm('确认要删除吗？',function(index){
+  //     //发异步删除数据
+  //     $(obj).parents("tr").remove();
+  //     layer.msg('已删除!',{icon:1,time:1000});
+  //   });
+  // }
 
   function delAll (argument) {
 
