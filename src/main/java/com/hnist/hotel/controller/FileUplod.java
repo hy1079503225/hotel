@@ -16,10 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @Filename
@@ -37,8 +34,8 @@ public class FileUplod   {
     // produces={"text/html;charset=UTF-8"}produces = {"application/json;charset=UTF-8"}
     @RequestMapping(value = "images",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> upload( @RequestParam("file") MultipartFile file)throws IOException {
-
+    public ResponseEntity<List<String>> upload(@RequestParam("file") MultipartFile file)throws IOException {
+     List<String> url=new ArrayList<>();
         String aStatic = URLDecoder.decode(this.getClass().getClassLoader().getResource("static").getFile(), "utf-8");
         String dir=aStatic+File.separator+"upload"+File.separator;;
         System.out.println(dir);
@@ -55,13 +52,15 @@ public class FileUplod   {
             imgName = sdf.format(new Date()) + r.nextInt(100) + ".gif";
         } else {
            // return ResponseEntity.status(500).body("格式错误");
-            return ResponseEntity.status(404).body("格式错误");
+            url.add("格式错误");
+            return ResponseEntity.status(404).body(url);
         }
         if (!new File(dir,imgName).getParentFile().exists()) new File(dir,imgName).getParentFile().mkdirs();
 
         //写入文件
         file.transferTo(new File(dir, imgName));
-        return ResponseEntity.ok("upload/"+imgName);
+        url.add("upload/"+imgName);
+        return ResponseEntity.ok(url);
        // return "upload/"+imgName;
     }
 

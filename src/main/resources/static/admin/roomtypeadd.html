@@ -175,15 +175,12 @@
             contentType: "application/json; charset=utf-8",
             data:JSON.stringify(data),
             success: function (result) {
-                if (result.code==200) {
                     layer.alert("增加成功,请刷新", {icon: 6},function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
                         parent.layer.close(index);
                     });
-                }
-
             },
             error: function () {
             }
@@ -205,21 +202,13 @@
                 dataType: 'json', //返回值类型 一般设置为json
                 success: function (data, status)  //服务器成功响应处理函数
                 {
-                    alert("ok")
-                    // $("#img1").attr("src", data.imgurl);
-                    // if (typeof (data.error) != 'undefined') {
-                    //     if (data.error != '') {
-                    //         alert(data.error);
-                    //     } else {
-                    //         alert(data.msg);
-                    //     }
-                    // }
+                     console.log(data)
+                    $("#imgurl").val(data);
+                    alert($("#imgurl").val()+"上传成功")
                 },
                 error: function (data, status, e)//服务器响应失败处理函数
                 {
-                    $("#imgurl").val(e);
-                      var a= $("#imgurl").val().split(":")[2]
-                  // alert(a)
+                    alert(e)
                 }
             }
         )
