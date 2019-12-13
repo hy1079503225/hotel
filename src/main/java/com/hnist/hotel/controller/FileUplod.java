@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -53,6 +55,12 @@ public class FileUplod   {
         } else {
            // return ResponseEntity.status(500).body("格式错误");
             url.add("格式错误");
+            return ResponseEntity.status(404).body(url);
+        }
+        // 2)校验图片内容
+        BufferedImage image = ImageIO.read(file.getInputStream());
+        if (image == null) {
+            url.add("不是图片文件");
             return ResponseEntity.status(404).body(url);
         }
         if (!new File(dir,imgName).getParentFile().exists()) new File(dir,imgName).getParentFile().mkdirs();
