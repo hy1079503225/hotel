@@ -30,7 +30,18 @@ public class UserConller {
     @PostMapping("getUserList")
     public String getUserList(HttpServletRequest request){
         //用户id，留做权限判断
-        Integer userid = Integer.valueOf(request.getParameter("userid"));
+        String useridStr = request.getParameter("userid");
+        if (useridStr!=null||Integer.valueOf(useridStr)!=3){
+//            return "无操作权限";
+        }
+        //搜索条件
+        String search = request.getParameter("search");
+        if (search == null ){
+            search = "";
+        }else {
+            request.setAttribute("search",search);
+        }
+
         //当前页
         Integer page = Integer.valueOf(request.getParameter("currentpage"));
         if(page == null){
@@ -45,7 +56,7 @@ public class UserConller {
         //当前页码
         pageParams.setPage(page);
         //获取数据
-        PageResult<User> pageResult= userService.getUserList(pageParams);
+        PageResult<User> pageResult= userService.getUserList(pageParams,search);
         pageResult.setCurrPage((long)page);
 
         try {
@@ -68,7 +79,10 @@ public class UserConller {
     @ResponseBody
     public String deleteUserById(HttpServletRequest request){
         //用户id，留做权限判断
-        Integer userid = Integer.valueOf(request.getParameter("userid"));
+        String useridStr = request.getParameter("userid");
+        if (useridStr!=null||Integer.valueOf(useridStr)!=3){
+//            return "无操作权限";
+        }
 
         Integer id = Integer.valueOf(request.getParameter("id"));
         if(id==null) return null;
@@ -86,8 +100,8 @@ public class UserConller {
     public String updateUserById(HttpServletRequest request){
         //用户id，留做权限判断
         String useridStr = request.getParameter("userid");
-        if (useridStr!=null){
-            Integer id = Integer.valueOf(useridStr);
+        if (useridStr!=null||Integer.valueOf(useridStr)!=3){
+//            return "无操作权限";
         }
 
         //获取前端传来数据

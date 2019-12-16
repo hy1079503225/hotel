@@ -34,8 +34,8 @@
 <div class="x-body">
   <div class="layui-row">
     <form class="layui-form layui-col-md12 x-so">
-      <input type="text" name="username"  placeholder="请输入用户名/手机号/身份证" autocomplete="off" class="layui-input" style="width:300px ">
-      <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+      <input type="text" id="search"  placeholder="请输入用户名/手机号/身份证" autocomplete="off" class="layui-input" style="width:300px ">
+      <button type="button" class="layui-btn" onclick="searchBtn()" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
     </form>
   </div>
   <xblock>
@@ -128,7 +128,6 @@
 
     if($(obj).attr('title')=='停用'){
       var result = lock(id,1);
-      alert("停用result--"+result);
       if(result){return;}
       //发异步把用户状态进行更改
       $(obj).attr('title','启用');
@@ -137,12 +136,11 @@
       layer.msg('已停用!',{icon: 5,time:1000});
     }else{
       var result = lock(id,0);
-      alert("启用result--"+result)
       if(result){return;}
       $(obj).attr('title','停用');
       $(obj).find('i').html('&#xe601;');
       $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-      layer.msg('已启用!',{icon: 5,time:1000});
+      layer.msg('已启用!',{icon: 6,time:1000});
     }
   }
 

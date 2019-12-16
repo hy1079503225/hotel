@@ -1,8 +1,11 @@
 package com.hnist.hotel.pojo;
 
-import javax.persistence.Id;
+import tk.mybatis.mapper.annotation.KeySql;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Table(name="user")
 public class User {
     /**
      *
@@ -12,6 +15,8 @@ public class User {
      * @mbg.generated Tue Dec 10 21:40:46 CST 2019
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @KeySql(useGeneratedKeys = true)
     private Integer id;
 
     /**
@@ -84,6 +89,7 @@ public class User {
      *
      * @mbg.generated Tue Dec 10 21:40:46 CST 2019
      */
+    @Column(name="card_id")
     private String cardId;
 
     /**
@@ -93,6 +99,7 @@ public class User {
      *
      * @mbg.generated Tue Dec 10 21:40:46 CST 2019
      */
+    @Column(name="create_time")
     private Date createTime;
 
     /**
@@ -102,6 +109,7 @@ public class User {
      *
      * @mbg.generated Tue Dec 10 21:40:46 CST 2019
      */
+    @Column(name="update_time")
     private Date updateTime;
 
     /**
@@ -111,6 +119,7 @@ public class User {
      *
      * @mbg.generated Tue Dec 10 21:40:46 CST 2019
      */
+    @Column(name="room_id")
     private Integer roomId;
 
     private Integer status;

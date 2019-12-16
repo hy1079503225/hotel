@@ -18,11 +18,18 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public PageResult<User> getUserList(PageParams pageParams) {
+    public PageResult<User> getUserList(PageParams pageParams,String search) {
+        search = "%" + search + "%";
+        System.out.println("search--" + search);
         // 开始分页
         PageHelper.startPage(pageParams.getPage(), pageParams.getLimit());
+        //查询条件，用户名，电话，身份证号码
+        Example example=new Example(User.class);
+        example.createCriteria().andLike("username",search);
+        example.or(example.createCriteria().andLike("phone",search));
+        example.or(example.createCriteria().andLike("cardId",search));
         //查
-        Page<User> pageInfo = (Page<User>) userMapper.selectAll();
+        Page<User> pageInfo = (Page<User>) userMapper.selectByExample(example);
         // 返回结果
         PageResult<User> userPageResult = new PageResult<>(pageInfo.getTotal(), pageInfo);
         //总页数
