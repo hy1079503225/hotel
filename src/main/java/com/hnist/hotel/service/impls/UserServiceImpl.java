@@ -40,13 +40,15 @@ public class UserServiceImpl implements UserService {
         return userMapper.deleteByExample(example);
     }
 
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
     @Override
-    public Integer updateUserById(Integer userid, User user) {
-        //过滤条件
-        Example example=new Example(User.class);
-        example.createCriteria().andEqualTo("id",userid);
-
-        return userMapper.updateByExampleSelective(user,example);
+    public Integer updateUserById(User user) {
+        Integer result = userMapper.updateByPrimaryKeySelective(user);
+        return result;
     }
 
     /**

@@ -40,7 +40,7 @@
   </div>
   <xblock>
     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-<!--    <button class="layui-btn" onclick="x_admin_show('添加用户','./member-add.html',600,400)"><i class="layui-icon"></i>添加</button>-->
+    <!--    <button class="layui-btn" onclick="x_admin_show('添加用户','./member-add.html',600,400)"><i class="layui-icon"></i>添加</button>-->
     <span class="x-right" style="line-height:40px" id="total">共有数据：88 条</span>
   </xblock>
   <table class="layui-table">
@@ -62,18 +62,18 @@
       <th>状态</th>
       <th>操作</th></tr>
     </thead>
-    <tbody id="userlist">
+    <tbody  id="userlist">
     <tr>
       <td>
         <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
       </td>
       <td>1</td>
-      <td>请稍等</td>
-      <td>请稍等</td>
+      <td>加载中</td>
+      <td>加载中</td>
       <td>男</td>
       <td>13000000000</td>
-      <td>admin@mail.com</td>
-      <td>北京市 海淀区</td>
+      <td>加载中</td>
+      <td>加载中</td>
       <td>4302231997xxxx0000</td>
       <td>2017-01-01 11:11:42</td>
       <td>2019-01-01 11:11:42</td>
@@ -125,25 +125,25 @@
 
   /*用户-停用*/
   function member_stop(obj,id){
-    layer.confirm('确认要停用吗？',function(index){
 
-      if($(obj).attr('title')=='启用'){
-
-        //发异步把用户状态进行更改
-        $(obj).attr('title','停用')
-        $(obj).find('i').html('&#xe62f;');
-
-        $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-        layer.msg('已停用!',{icon: 5,time:1000});
-
-      }else{
-        $(obj).attr('title','启用')
-        $(obj).find('i').html('&#xe601;');
-
-        $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-        layer.msg('已启用!',{icon: 5,time:1000});
-      }
-    });
+    if($(obj).attr('title')=='停用'){
+      var result = lock(id,1);
+      alert("停用result--"+result);
+      if(result){return;}
+      //发异步把用户状态进行更改
+      $(obj).attr('title','启用');
+      $(obj).find('i').html('&#xe62f;');
+      $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+      layer.msg('已停用!',{icon: 5,time:1000});
+    }else{
+      var result = lock(id,0);
+      alert("启用result--"+result)
+      if(result){return;}
+      $(obj).attr('title','停用');
+      $(obj).find('i').html('&#xe601;');
+      $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+      layer.msg('已启用!',{icon: 5,time:1000});
+    }
   }
 
   /*用户-删除*/

@@ -16,38 +16,63 @@ function loadSingerData(currentpage) {
                 var email = item[i]["email"];
                 var address = item[i]["address"];
                 var cardId = item[i]["cardId"];
+                var status = item[i]["status"];
                 var createTime = renderTime(item[i]["createTime"]);
                 var updateTime = renderTime(item[i]["updateTime"]);
 
                 var html = "<tr>\n" +
-                    "<td>\n" +
-                    "        <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div>\n" +
-                    "      </td>\n" +
-                    "      <td>" + id + "</td>\n" +
-                    "      <td>" + username + "</td>\n" +
-                    "      <td>" + name + "</td>\n" +
-                    "      <td>" + gender + "</td>\n" +
-                    "      <td>" + phone + "</td>\n" +
-                    "      <td>" + email + "</td>\n" +
-                    "      <td>" + address + "</td>\n" +
-                    "      <td>" + cardId + "</td>\n" +
-                    "      <td>" + createTime + "</td>\n" +
-                    "      <td>" + updateTime + "</td>\n" +
-                    "      <td class=\"td-status\">\n" +
-                    "        <span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span>\n" +
-                    "      </td>\n" +
-                    "      <td class=\"td-manage\">\n" +
-                    "        <a onclick=\"member_stop(this,'10001')\" href=\"javascript:;\"  title=\"启用\">\n" +
-                    "          <i class=\"layui-icon\">&#xe601;</i>\n" +
-                    "        </a>\n" +
-                    "        <a title=\"编辑\"  onclick=\"x_admin_show('编辑','member-edit.html',600,400)\" href=\"javascript:;\">\n" +
-                    "          <i class=\"layui-icon\">&#xe642;</i>\n" +
-                    "        </a>\n" +
-                    "        <a title=\"删除\" onclick=\"del(" + id + ")\" href=\"javascript:;\">\n" +
-                    "          <i class=\"layui-icon\">&#xe640;</i>\n" +
-                    "        </a>\n" +
-                    "      </td>" +
-                    "    </tr>"
+                    "<td> " +
+                    "  <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='"+ id +"'>" +
+                    "    <i class=\"layui-icon\">&#xe605;</i></div>" +
+                    "</td>\n" +
+                    "<td>" + id + "</td>\n" +
+                    "<td>" + username + "</td>\n" +
+                    "<td>" + name + "</td>\n" +
+                    "<td>" + gender + "</td>\n" +
+                    "<td>" + phone + "</td>\n" +
+                    "<td>" + email + "</td>\n" +
+                    "<td>" + address + "</td>\n" +
+                    "<td>" + cardId + "</td>\n" +
+                    "<td>" + createTime + "</td>\n" +
+                    "<td>" + updateTime + "</td>\n";
+                if (status==1){
+                    // item[i]["status"] = 0;
+                    var statushtml =
+                        "<td class=\"td-status\">\n" +
+                        "  <span class=\"layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled\">已停用</span>\n" +
+                        "</td>\n" +
+                        "<td class=\"td-manage\">\n" +
+                        "  <a onclick=\"member_stop(this," + id + ","+status+")\" href=\"javascript:;\"  title=\"启用\">\n" +
+                        "    <i class=\"layui-icon\">&#xe62f;</i>\n" +
+                        "  </a>\n" +
+                        "  <a title=\"编辑\"  onclick=\"x_admin_show('编辑','member-edit.html',600,400)\" href=\"javascript:;\">\n" +
+                        "    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                        "  </a>\n" +
+                        "  <a title=\"删除\" onclick=\"del(" + id + ")\" href=\"javascript:;\">\n" +
+                        "    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                        "  </a>\n" +
+                        "</td>" +
+                        "    </tr>"
+                } else {
+                    // item[i]["status"] = 1;
+                    var statushtml =
+                        "<td class=\"td-status\">\n" +
+                        "  <span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span>\n" +
+                        "</td>\n" +
+                        "<td class=\"td-manage\">\n" +
+                        "  <a onclick=\"member_stop(this," + id + ","+status+")\" href=\"javascript:;\"  title=\"停用\">\n" +
+                        "    <i class=\"layui-icon\">&#xe601;</i>\n" +
+                        "  </a>\n" +
+                        "  <a title=\"编辑\"  onclick=\"x_admin_show('编辑','member-edit.html',600,400)\" href=\"javascript:;\">\n" +
+                        "    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                        "  </a>\n" +
+                        "  <a title=\"删除\" onclick=\"del(" + id + ")\" href=\"javascript:;\">\n" +
+                        "    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                        "  </a>\n" +
+                        "</td>" +
+                        "    </tr>"
+                }
+                html += statushtml;
                 userlist += html;
             }
             //用户数据列表
@@ -94,7 +119,6 @@ function del(id) {
             "/user/deleteUserById",
             {"userid":3,"id":id},
             function (data) {
-                console.log("--getUserList-- "+data)
                 if (data == "false") {
                     alert("删除失败！");
                 } else {
@@ -104,6 +128,24 @@ function del(id) {
             }
         );
     }
+}
+
+function lock(id,status) {
+    //id:要删除用户的id
+    //userid：当前用户id，预留字段，做权限用
+    $.post(
+        "/user/updateUserById",
+        {"userid":3,"id":id,"status":status},
+        function (data) {
+            console.log("--getUserList-- "+data)
+            if (data == "false") {
+                alert("操作失败！");
+                return false;
+            }else {
+                return true;
+            }
+        }
+    );
 }
 
 //改

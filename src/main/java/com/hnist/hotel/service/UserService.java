@@ -7,5 +7,5 @@ import com.hnist.hotel.pojo.User;
 public interface UserService {
     PageResult<User> getUserList(PageParams pageParams);
     Integer deleteUserById(Integer userid);
-    Integer updateUserById(Integer userid,User user);
+    Integer updateUserById(User user);
 }

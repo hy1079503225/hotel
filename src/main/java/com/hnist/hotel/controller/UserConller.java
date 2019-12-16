@@ -77,15 +77,66 @@ public class UserConller {
     }
 
     /**
-     * 修改用户信息，还没写
-     * @param userid
-     * @param user
+     * 根据id锁定或用户
+     * @param request
      * @return
      */
-    public String updateUserById(@RequestParam(value="userid")Integer userid,User user){
-        if(userid==null) return null;
+    @RequestMapping("updateUserById")
+    @ResponseBody
+    public String updateUserById(HttpServletRequest request){
+        //用户id，留做权限判断
+        String useridStr = request.getParameter("userid");
+        if (useridStr!=null){
+            Integer id = Integer.valueOf(useridStr);
+        }
 
-        return userService.updateUserById(userid,user)>0
+        //获取前端传来数据
+        String idStr = request.getParameter("id");
+        String username = request.getParameter("username");
+        String name = request.getParameter("name");
+        String genderStr = request.getParameter("gender");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        String card_id = request.getParameter("card_id");
+        String password = request.getParameter("password");
+        String statusStr = request.getParameter("status");
+
+        User user = new User();
+        //判空
+        if(idStr==null){
+            return "false";
+        }else {
+            user.setId(Integer.valueOf(idStr));
+        }
+        if(username!=null){
+
+        }
+        if(name!=null){
+
+        }
+        if(genderStr!=null){
+
+        }
+        if(phone!=null){
+
+        }
+        if(email!=null){
+
+        }
+        if(address!=null){
+
+        }
+        if(card_id!=null){
+
+        }
+        if(password!=null){
+
+        }
+        if(statusStr!=null){
+            user.setStatus(Integer.valueOf(statusStr));
+        }
+        return userService.updateUserById(user)>0
                 ? "true" : "false";
     }
 }
