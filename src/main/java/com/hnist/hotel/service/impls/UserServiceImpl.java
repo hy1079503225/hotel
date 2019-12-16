@@ -11,6 +11,8 @@ import com.hnist.hotel.pojo.PageParams;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -20,7 +22,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageResult<User> getUserList(PageParams pageParams,String search) {
         search = "%" + search + "%";
-        System.out.println("search--" + search);
         // 开始分页
         PageHelper.startPage(pageParams.getPage(), pageParams.getLimit());
         //查询条件，用户名，电话，身份证号码
@@ -39,10 +40,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer deleteUserById(Integer userid) {
+    public Integer deleteUserById(Integer id) {
         //过滤条件
         Example example=new Example(User.class);
-        example.createCriteria().andEqualTo("id",userid);
+        example.createCriteria().andEqualTo("id",id);
 
         return userMapper.deleteByExample(example);
     }
@@ -56,6 +57,16 @@ public class UserServiceImpl implements UserService {
     public Integer updateUserById(User user) {
         Integer result = userMapper.updateByPrimaryKeySelective(user);
         return result;
+    }
+
+    @Override
+    public User queryUserById(Integer id) {
+        //过滤条件
+        Example example=new Example(User.class);
+        example.createCriteria().andEqualTo("id",id);
+        List<User> userList = userMapper.selectByExample(example);
+
+        return userList.size()>0? userList.get(0):null;
     }
 
     /**

@@ -52,13 +52,13 @@
       <th>ID</th>
       <th>用户名</th>
       <th>姓名</th>
-      <th>性别</th>
-      <th>手机号</th>
+      <th width="5px">性别</th>
+      <th width="86px">手机号</th>
       <th>邮箱</th>
-      <th>地址</th>
+      <th width="120px">地址</th>
       <th>身份证号</th>
-      <th>加入时间</th>
-      <th>更新时间</th>
+      <th width="75px">注册时间</th>
+<!--      <th>更新时间</th>-->
       <th>状态</th>
       <th>操作</th></tr>
     </thead>
@@ -76,7 +76,7 @@
       <td>加载中</td>
       <td>4302231997xxxx0000</td>
       <td>2017-01-01 11:11:42</td>
-      <td>2019-01-01 11:11:42</td>
+<!--      <td>2019-01-01 11:11:42</td>-->
       <td class="td-status">
         <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
       </td>
@@ -106,7 +106,6 @@
         <a href="#" style="color:#000">尾页</a>
     </div>
   </form>
-
 </div>
 
 <script>
@@ -125,7 +124,6 @@
 
   /*用户-停用*/
   function member_stop(obj,id){
-
     if($(obj).attr('title')=='停用'){
       var result = lock(id,1);
       if(result){return;}
@@ -148,14 +146,11 @@
   function member_del(obj,id){
     layer.confirm('确认要删除吗？',function(index){
       //发异步删除数据
-      $(obj).parents("tr").remove();
-      layer.msg('已删除!',{icon:1,time:1000});
+      del(id);
     });
   }
   function delAll (argument) {
-
     var data = tableCheck.getData();
-
     layer.confirm('确认要删除吗？'+data,function(index){
       //捉到所有被选中的，发异步进行删除
       layer.msg('删除成功', {icon: 1});
@@ -163,14 +158,183 @@
     });
   }
 </script>
-<script>var _hmt = _hmt || []; (function() {
+<script>
+  var _hmt = _hmt || []; (function() {
   var hm = document.createElement("script");
   hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
   var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
-})();</script>
+})();
+</script>
 
-<script src="js/member-list.js"></script>
+<script>
+  function loadUserData(currentpage) {
+    $.post(
+            "http://localhost:8089/user/getUserList",//url
+            {"currentpage":1,"userid":3}, function (data){
+              doload(data)
+            });
+  }
+
+  //加载函数
+  $(function () {
+    loadUserData(1);
+  });
+
+  //删
+  function del(id) {
+    //id:要删除用户的id
+    //userid：当前用户id，预留字段，做权限用
+    if(window.confirm("确定删除？")){
+      $.post(
+              "/user/deleteUserById",
+              {"userid":3,"id":id},
+              function (data) {
+                if (data == "false") {
+                  layer.msg('删除失败!',{icon:2,time:1000});
+                } else {
+                  layer.msg('已删除!',{icon:1,time:1000});
+                  window.location.reload();
+                }
+              }
+      );
+    }
+  }
+
+  //改
+  function update(id,currentpage) {
+    x_admin_show("编辑","member-edit.html?id="+id+"&page="+currentpage,600,400);
+  }
+
+  //锁定
+  function lock(id,status) {
+    //id:要删除用户的id
+    //userid：当前用户id，预留字段，做权限用
+    $.post(
+            "/user/updateUserById",
+            {"userid":3,"id":id,"status":status},
+            function (data) {
+              if (data == "false") {
+                alert("操作失败！");
+                return false;
+              }else {
+                return true;
+              }
+            });
+  }
+
+  //查
+  function searchBtn() {
+    var search = $("#search").val();
+    $.post(
+            "http://localhost:8089/user/getUserList",//url
+            {"currentpage":1,"userid":3,"search":search}, function (data){
+              doload(data);
+            });
+  }
+
+  //将数据遍历到网页上
+  function doload(data) {
+    var json = JSON.parse(data);
+    var item = json["items"];
+    var length = item.length;
+
+    var userlist = "";
+    for (var i = 0; i < length; i++) {
+      var id = item[i]["id"];
+      var username = item[i]["username"];
+      var name = item[i]["name"];
+      var genderInt = item[i]["gender"];
+      var gender = (genderInt==1)?'男':'女';
+      var phone = item[i]["phone"];
+      var email = item[i]["email"];
+      var address = item[i]["address"];
+      var cardId = item[i]["cardId"];
+      var status = item[i]["status"];
+      var createTime = renderTime(item[i]["createTime"]);
+      var updateTime = renderTime(item[i]["updateTime"]);
+
+      var html = "<tr>\n" +
+              "<td> " +
+              "  <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='"+ id +"'>" +
+              "    <i class=\"layui-icon\">&#xe605;</i></div>" +
+              "</td>\n" +
+              "<td>" + id + "</td>\n" +
+              "<td>" + username + "</td>\n" +
+              "<td>" + name + "</td>\n" +
+              "<td>" + gender + "</td>\n" +
+              "<td>" + phone + "</td>\n" +
+              "<td>" + email + "</td>\n" +
+              "<td>" + address + "</td>\n" +
+              "<td>" + cardId + "</td>\n" +
+              "<td>" + createTime + "</td>\n";
+      // "<td>" + updateTime + "</td>\n";
+      if (status==1){
+        var statushtml =
+                "<td class=\"td-status\">\n" +
+                "  <span class=\"layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled\">已停用</span>\n" +
+                "</td>\n" +
+                "<td class=\"td-manage\">\n" +
+                "  <a onclick=\"member_stop(this," + id + ","+status+")\" href=\"javascript:;\"  title=\"启用\">\n" +
+                "    <i class=\"layui-icon\">&#xe62f;</i>\n" +
+                "  </a>\n" +
+                "  <a title=\"编辑\" onclick=\"update("+id+","+json["currPage"]+")\" href=\"javascript:;\">\n" +
+                "    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                "  </a>\n" +
+                "  <a title=\"删除\" onclick=\"member_del(" + id + ")\" href=\"javascript:;\">\n" +
+                "    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                "  </a>\n" +
+                "</td>" +
+                "    </tr>"
+      } else {
+        var statushtml =
+                "<td class=\"td-status\">\n" +
+                "  <span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span>\n" +
+                "</td>\n" +
+                "<td class=\"td-manage\">\n" +
+                "  <a onclick=\"member_stop(this," + id + ","+status+")\" href=\"javascript:;\"  title=\"停用\">\n" +
+                "    <i class=\"layui-icon\">&#xe601;</i>\n" +
+                "  </a>\n" +
+                "  <a title=\"编辑\"  onclick=\"update("+id+","+json["currPage"]+")\" href=\"javascript:;\">\n" +
+                "    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                "  </a>\n" +
+                "  <a title=\"删除\"  onclick=\"member_del(" + id + ")\" href=\"javascript:;\">\n" +
+                "    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                "  </a>\n" +
+                "</td>" +
+                "    </tr>"
+      }
+      html += statushtml;
+      userlist += html;
+    }
+    //用户数据列表
+    $("#userlist").empty();
+    $("#userlist").html(userlist);
+
+    //当前页
+    $("#currentPage").empty();
+    $("#currentPage").html(json["currPage"]);
+    //总数据
+    $("#total").empty();
+    $("#total").html("总数据量"+json["total"]);
+
+    //翻页
+    $("#pagerutil").empty();
+    var pager = " <a href=\"#\" onclick=\"loadUserData(1)\" style=\"color:#000\">首页</a>\n" +
+            "            <a href=\"#\" onclick=\"loadUserData(" + (json["currPage"] - 1) + ")\" style=\"color:#000\">上页</a>\n" +
+            "            <a href=\"#\" style=\"color:#000\">" + json["currPage"] + "/" + json["totalPage"] + "</a>\n" +
+            "            <a href=\"#\" onclick=\"loadUserData(" + (json["currPage"] + 1) + ")\" style=\"color:#000\">下页</a>\n" +
+            "            <a href=\"#\" onclick=\"loadUserData(" + (json["totalPage"]) + ")\" style=\"color:#000\">尾页</a>";
+    $("#pagerutil").append(pager);
+  }
+
+  //Json格式的时间函数
+  function renderTime(date){
+    var datestring = date.toString();
+    var da = new Date(parseInt(datestring.replace("/Date(","").replace(")/","").split("+")[0]));
+    return da.getFullYear()+"-"+ (da.getMonth()+1)+"-" +da.getDate()+" " +da.getHours()+":"+da.getSeconds()+":"+da.getMinutes();
+  };
+
+</script>
 </body>
-
 </html>

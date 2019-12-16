@@ -8,4 +8,5 @@ public interface UserService {
     PageResult<User> getUserList(PageParams pageParams,String search);
     Integer deleteUserById(Integer userid);
     Integer updateUserById(User user);
+    User queryUserById(Integer id);
 }

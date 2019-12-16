@@ -1,11 +1,13 @@
 package com.hnist.hotel.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hnist.hotel.pojo.PageParams;
 import com.hnist.hotel.pojo.PageResult;
 import com.hnist.hotel.pojo.User;
 import com.hnist.hotel.service.UserService;
+import com.sun.xml.internal.ws.util.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,28 @@ public class UserConller {
     UserService userService;
 
     /**
+     *
+     */
+    @PostMapping("queryUserById")
+    public String queryUserById(HttpServletRequest request){
+        //用户id，留做权限判断
+        String useridStr = request.getParameter("userid");
+        if (useridStr!=null||Integer.valueOf(useridStr)!=3){
+//            return "无操作权限";
+        }
+
+        String idStr = request.getParameter("id");
+        if (idStr==null){
+            return "false";
+        }
+        Integer id = Integer.valueOf(idStr);
+        User user = userService.queryUserById(id);
+        //Json格式
+        String json = JSON.toJSONString(user);
+
+        return user==null?"false":json;
+    }
+    /**
      * 获取用户列表
      * @param request
      * @return
@@ -34,12 +58,11 @@ public class UserConller {
         if (useridStr!=null||Integer.valueOf(useridStr)!=3){
 //            return "无操作权限";
         }
+
         //搜索条件
         String search = request.getParameter("search");
         if (search == null ){
             search = "";
-        }else {
-            request.setAttribute("search",search);
         }
 
         //当前页
@@ -91,7 +114,8 @@ public class UserConller {
     }
 
     /**
-     * 根据id锁定或用户
+     * 1、修改用户信息
+     * 2、根据id锁定或用户
      * @param request
      * @return
      */
@@ -108,7 +132,7 @@ public class UserConller {
         String idStr = request.getParameter("id");
         String username = request.getParameter("username");
         String name = request.getParameter("name");
-        String genderStr = request.getParameter("gender");
+        String genderInt = request.getParameter("genderInt");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
@@ -124,28 +148,28 @@ public class UserConller {
             user.setId(Integer.valueOf(idStr));
         }
         if(username!=null){
-
+            user.setUsername(username);
         }
         if(name!=null){
-
+            user.setName(name);
         }
-        if(genderStr!=null){
-
+        if(genderInt!=null){
+            user.setGender(Byte.valueOf(genderInt));
         }
         if(phone!=null){
-
+            user.setPhone(phone);
         }
         if(email!=null){
-
+            user.setEmail(email);
         }
         if(address!=null){
-
+            user.setAddress(address);
         }
         if(card_id!=null){
-
+            user.setCardId(card_id);
         }
         if(password!=null){
-
+            user.setPassword(password);
         }
         if(statusStr!=null){
             user.setStatus(Integer.valueOf(statusStr));
