@@ -61,6 +61,7 @@
       <th>酒店email</th>
       <th>酒店地址</th>
       <th>酒店网址</th>
+      <th>酒店房间最低价格</th>
       <th>创建时间</th>
       <th>更新时间</th>
       <th >操作</th>
@@ -112,13 +113,13 @@
   });
 
  function searchBtn() {
-  alert("--search--");
    var city=$(".layui-input").val();
    window.alert(city);
    load(1,city);
 }
 
   function load(indexpage,city) {
+
     $.ajax({
       type: "post",//方法类型
       url:  "/hotel/loadhotel.do",//url
@@ -126,31 +127,28 @@
       data:{"indexpage":indexpage,"city":city},
       success: function (data) {
         var json = JSON.parse(data);
-        console.log(json)
         var  length=json.size;
-        console.log(length)
-        console.log(json.list[0].hotelName);
         var hotel="";
         for (var i=0;i<length;i++){
-
           var trhtml="  <tr>"+" <td>\n" +
                   "        <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div>\n" +
                   "      </td>\n" +
                   "      <td>"+ json.list[i].id+"</td>\n" +
-                  "      <td><img src=\"../before/images/hotel/"+json.list[i].hotelImg+"\"/></td>"+
+                  "      <td><img src=\"/upload/"+json.list[i].hotelImg+"\"/></td>"+
                   "      <td>"+json.list[i].hotelName+"</td>\n" +
                   "      <td>"+json.list[i].city+"</td>\n" +
                   "      <td>"+json.list[i].phone+"</td>\n" +
                   "      <td>"+json.list[i].email+"</td>\n" +
                   "      <td>"+json.list[i].address+"</td>\n" +
                   "      <td>"+json.list[i].website+"</td>\n" +
-                  "      <td>"+json.list[i].createTime+"</td>\n" +
-                  "      <td>"+json.list[i].updateTime+"</td>";
+                  "      <td>"+json.list[i].hotellowprice+"</td>\n" +
+                  "      <td>"+renderTime(json.list[i].createTime.toString())+"</td>\n" +
+                  "      <td>"+renderTime(json.list[i].updateTime.toString())+"</td>";
           var tthtml="<td class=\"td-manage\">\n" +
                   "        <a title=\"修改\"  onclick=\"x_admin_show('修改','hotelupdate.html?id="+json.list[i].id+"')\" href=\"javascript:;\">\n" +
                   "          <i class=\"layui-icon\">&#xe63c;</i>\n" +
                   "        </a>\n" +
-                  "        <a title=\"删除\" onclick=\"member_del("+json.list[i].id+",'要删除的id')\" href=\"javascript:;\">\n" +
+                  "        <a title=\"删除\" onclick=\"del("+json.list[i]+")\" href=\"javascript:;\">\n" +
                   "          <i class=\"layui-icon\">&#xe640;</i>\n" +
                   "        </a>\n" +
                   "      </td>";
@@ -184,6 +182,14 @@
       }
     })
   };
+
+
+
+  function renderTime(date){
+    var da = new Date(parseInt(date.replace("/Date(","").replace(")/","").split("+")[0]));
+    return da.getFullYear()+"-"+ (da.getMonth()+1)+"-" +da.getDate()+" " +da.getHours()+":"+da.getSeconds()+":"+da.getMinutes();
+  }
+
 
 
 </script>
@@ -232,25 +238,37 @@
   // function member_del(obj,id){
   //   layer.confirm('确认要删除吗？',function(index){
   //     //发异步删除数据
+  //     $.post(
+  //             "/hotel/deletehotel",
+  //             {hotelid:id}
+  //     ),
   //     $(obj).parents("tr").remove();
   //     layer.msg('已删除!',{icon:1,time:1000});
   //   });
   // }
- function member_del(obj,id) {
+ function del(hotel) {
        if (window.confirm("确认删除吗?")){
-         $.post(
-                 "hotel/deletehotel",
-                 {hotelid:id}
-         ),
-                 function (data) {
-                   if (data=="false"){
-                      alert("删除失败");
-                   }else {
-                     alert("删除成功");
-                     window.location.reload();
+           $.ajax({
+               url:  "/hotel/deletehotel",
+               type:'post',
+               dataType:"json",
+               contentType: "application/json; charset=utf-8",
+               data:JSON.stringify(hotel),
+               success:function (data) {
+                   if (data==true){
+                       layer.alert("删除成功,请刷新", {icon: 6},function () {
+                           // 获得frame索引
+                           var index = parent.layer.getFrameIndex(window.name);
+                           //关闭当前frame
+                           parent.layer.close(index);
+                       });
+                   } else {
+                       layer.alert("删除失败");
+                       window.location.reload();
                    }
-                 }
-                 }
+               },
+           });
+       }
  }
 
 

@@ -7,10 +7,7 @@ import com.hnist.hotel.pojo.Hotel;
 import com.hnist.hotel.service.HotelService;
 import com.hnist.hotel.service.impls.HotelServiceImpl;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -25,12 +22,11 @@ import java.util.Date;
 public class HotelController {
     @Resource(type = HotelService.class)
     HotelServiceImpl hotelService;
+
     @RequestMapping("loadhotel.do")
     @ResponseBody
-    public  String loadHotel(Integer indexpage, String city){
-        System.out.println(indexpage);
-        PageInfo hotelList = hotelService.queryallhotel(indexpage,city);
-        System.out.println(hotelList);
+    public  String loadHotel(Integer indexpage, String city,Integer userid){
+        PageInfo hotelList = hotelService.queryallhotel(indexpage,city,userid);
         ObjectMapper objectMapper=new ObjectMapper();
         try {
             String s = objectMapper.writeValueAsString(hotelList);
@@ -51,7 +47,6 @@ public class HotelController {
         String s =null;
         try {
            s = objectMapper.writeValueAsString(hotel);
-            System.out.println(s);
            return s;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -61,30 +56,19 @@ public class HotelController {
 
 
     @RequestMapping("addhotel")
-    public  String addhotel(HttpServletRequest request,Hotel hotel, @RequestParam("picture") MultipartFile file){
-//        获取工程路径
-        String realpath=request.getServletContext().getRealPath("/");
-//        设置上传文件的路径
-        realpath+="before/hotel";
-        String picturename = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        long time = new Date().getTime();
-        String s = Long.toHexString(time);
-        hotel.setHotelImg(s+picturename);
-        try {
-            file.transferTo(new File(realpath+s+picturename));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @ResponseBody
+    public  String addhotel(@RequestBody Hotel hotel){
         boolean b = hotelService.inserthotel(hotel);
         if (b){
-            return "hotellist.html";
+            return "true";
         }
         return "false";
     }
 
     @RequestMapping("deletehotel")
-    public String deletehotel(Integer hotelid){
-        boolean b = hotelService.delete(hotelid);
+    @ResponseBody
+    public String deletehotel(@RequestBody Hotel hotel){
+        boolean b = hotelService.delete(hotel);
         if (b){
             return "true";
         }
@@ -92,11 +76,14 @@ public class HotelController {
     }
 
     @RequestMapping("updatehotel")
+    @ResponseBody
     public String updatehotel(Hotel hotel){
         boolean b = hotelService.update(hotel);
         if (b){
-            return "loadhotel.do";
+            return "true";
         }
         return "false";
     }
+
+
 }
