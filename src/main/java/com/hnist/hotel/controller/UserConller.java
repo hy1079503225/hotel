@@ -55,7 +55,7 @@ public class UserConller {
     public String getUserList(HttpServletRequest request){
         //用户id，留做权限判断
         String useridStr = request.getParameter("userid");
-        if (useridStr!=null||Integer.valueOf(useridStr)!=3){
+        if (useridStr==null||Integer.valueOf(useridStr)!=3){
 //            return "无操作权限";
         }
 
@@ -63,6 +63,12 @@ public class UserConller {
         String search = request.getParameter("search");
         if (search == null ){
             search = "";
+        }
+
+        //只查看已冻结用户
+        String search1 = request.getParameter("search1");
+        if (search1 == null ){
+            search1 = "0";
         }
 
         //当前页
@@ -79,13 +85,12 @@ public class UserConller {
         //当前页码
         pageParams.setPage(page);
         //获取数据
-        PageResult<User> pageResult= userService.getUserList(pageParams,search);
+        PageResult<User> pageResult= userService.getUserList(pageParams,search,search1);
         pageResult.setCurrPage((long)page);
 
         try {
             //格式转换
             String jsonString = objectMapper.writeValueAsString(pageResult);
-            System.out.println(page + "--- userPageResult ----" + jsonString + "---jsonObj--" );
             return jsonString;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -103,7 +108,7 @@ public class UserConller {
     public String deleteUserById(HttpServletRequest request){
         //用户id，留做权限判断
         String useridStr = request.getParameter("userid");
-        if (useridStr!=null||Integer.valueOf(useridStr)!=3){
+        if (useridStr==null||Integer.valueOf(useridStr)!=3){
 //            return "无操作权限";
         }
 
@@ -124,10 +129,39 @@ public class UserConller {
     public String updateUserById(HttpServletRequest request){
         //用户id，留做权限判断
         String useridStr = request.getParameter("userid");
-        if (useridStr!=null||Integer.valueOf(useridStr)!=3){
+        if (useridStr == null||Integer.valueOf(useridStr)!=3){
 //            return "无操作权限";
         }
+        //获取request中数据
+        User user = getUserInfo(request);
+        if (user == null) return "false";
 
+        return userService.updateUserById(user)>0
+                ? "true" : "false";
+    }
+    /**
+     * 1、新增用户
+     * @param request
+     * @return
+     */
+    @RequestMapping("addUserById")
+    @ResponseBody
+    public String addUserById(HttpServletRequest request){
+        //用户id，留做权限判断
+        String useridStr = request.getParameter("userid");
+        if (useridStr == null||Integer.valueOf(useridStr)!=3){
+//            return "无操作权限";
+        }
+        //获取request中数据
+        User user = getUserInfo(request);
+        if (user == null) return "false";
+
+        return userService.addUser(user)
+                ? "true" : "false";
+    }
+
+    //获取用户信息
+    public User getUserInfo(HttpServletRequest request){
         //获取前端传来数据
         String idStr = request.getParameter("id");
         String username = request.getParameter("username");
@@ -136,14 +170,14 @@ public class UserConller {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
-        String card_id = request.getParameter("card_id");
+        String cardId = request.getParameter("cardId");
         String password = request.getParameter("password");
         String statusStr = request.getParameter("status");
 
         User user = new User();
         //判空
         if(idStr==null){
-            return "false";
+            return null;
         }else {
             user.setId(Integer.valueOf(idStr));
         }
@@ -165,8 +199,8 @@ public class UserConller {
         if(address!=null){
             user.setAddress(address);
         }
-        if(card_id!=null){
-            user.setCardId(card_id);
+        if(cardId!=null){
+            user.setCardId(cardId);
         }
         if(password!=null){
             user.setPassword(password);
@@ -174,7 +208,7 @@ public class UserConller {
         if(statusStr!=null){
             user.setStatus(Integer.valueOf(statusStr));
         }
-        return userService.updateUserById(user)>0
-                ? "true" : "false";
+
+        return user;
     }
 }

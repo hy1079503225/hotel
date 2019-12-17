@@ -34,8 +34,9 @@
 <div class="x-body">
   <div class="layui-row">
     <form class="layui-form layui-col-md12 x-so" onkeydown="if(event.keyCode==13){return false;}">
-      <input type="text" id="search"  placeholder="请输入用户名/手机号/身份证" autocomplete="off" class="layui-input" style="width:300px " >
+      <input type="text" id="search"  placeholder="请输入用户名/姓名/手机号/身份证" autocomplete="off" class="layui-input" style="width:300px " >
       <button type="button" class="layui-btn" onclick="searchBtn()" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+      <span>&nbsp;&nbsp;&nbsp;只查看已冻结用户<input type="checkbox" value="1" id="search1"></span>
     </form>
   </div>
   <xblock>
@@ -226,9 +227,10 @@
   //查
   function searchBtn() {
     var search = $("#search").val();
+    var search1 = $("#search1").is(":checked")?1:0;
     $.post(
             "http://localhost:8089/user/getUserList",//url
-            {"currentpage":1,"userid":3,"search":search}, function (data){
+            {"currentpage":1,"userid":3,"search":search,"search1":search1}, function (data){
               doload(data);
             });
   }

@@ -20,15 +20,24 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public PageResult<User> getUserList(PageParams pageParams,String search) {
+    public PageResult<User> getUserList(PageParams pageParams,String search,String search1) {
         search = "%" + search + "%";
         // 开始分页
         PageHelper.startPage(pageParams.getPage(), pageParams.getLimit());
         //查询条件，用户名，电话，身份证号码
         Example example=new Example(User.class);
-        example.createCriteria().andLike("username",search);
-        example.or(example.createCriteria().andLike("phone",search));
-        example.or(example.createCriteria().andLike("cardId",search));
+        Example.Criteria criteria = example.createCriteria();
+        criteria.orLike("username",search);
+        criteria.orLike("name",search);
+        criteria.orLike("phone",search);
+        criteria.orLike("cardId",search);
+
+        if (search1.equals("1")){
+            Example.Criteria criteria1 = example.createCriteria();
+            criteria1.andEqualTo("status",Integer.valueOf(search1));
+
+            example.and(criteria1);
+        }
         //查
         Page<User> pageInfo = (Page<User>) userMapper.selectByExample(example);
         // 返回结果
@@ -67,6 +76,16 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userMapper.selectByExample(example);
 
         return userList.size()>0? userList.get(0):null;
+    }
+
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    @Override
+    public Boolean addUser(User user) {
+        return userMapper.insertSelective(user)>0?true:false;
     }
 
     /**
