@@ -21,82 +21,214 @@
 
 <body>
 <div class="x-body">
-	<form class="layui-form">
-		<div class="layui-form-item">
-			<label for="roomtype" class="layui-form-label">
-				<span class="x-red">*</span>房间类型
-			</label>
-			<div class="layui-input-inline">
-				<input type="text" id="roomtype" name="roomtype" required="" lay-verify="required"
-					   autocomplete="off" class="layui-input">
-			</div>
-		</div>
 
-		<div class="layui-form-item">
-			<label for="bednumber" class="layui-form-label">
-				<span class="x-red">*</span>床的数量
-			</label>
-			<div class="layui-input-inline">
-				<input type="text" id="bednumber" name="bednumber" required="" lay-verify="required"
-					   autocomplete="off" class="layui-input">
-			</div>
-		</div>
 
-		<div class="layui-form-item">
-			<label for="bedsize" class="layui-form-label">
-				<span class="x-red">*</span>床的大小
-			</label>
-			<div class="layui-input-inline">
-				<input type="text" id="bedsize" name="bedsize" required="" lay-verify="required"
-					   autocomplete="off" class="layui-input">
-			</div>
-		</div>
 
-		<div class="layui-form-item">
-			<label for="window" class="layui-form-label">
-				<span class="x-red">*</span>窗户
-			</label>
-			<div class="layui-input-inline">
-				<input type="text" id="window" name="window" required="" lay-verify="required"
-					   autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label for="area" class="layui-form-label">
-				<span class="x-red">*</span>面积
-			</label>
-			<div class="layui-input-inline">
-				<input type="text" id="area" name="area" required="" lay-verify="required"
-					   autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label for="roomaccount" class="layui-form-label">
-				<span class="x-red">*</span>房间数量
-			</label>
-			<div class="layui-input-inline">
-				<input type="text" id="roomaccount" name="roomaccount" required="" lay-verify="required"
-					   autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label for="remark" class="layui-form-label">
-				<span class="x-red">*</span>备注
-			</label>
-			<div class="layui-input-inline">
-				<input type="text" id="remark" name="remark" required="" lay-verify="required"
-					   autocomplete="off" class="layui-input">
-			</div>
-		</div>
 
-		<div class="layui-form-item">
-			<label for="add" class="layui-form-label"></label>
-			<button  id="add" class="layui-btn" lay-filter="add" lay-submit="添加">
-				添加
-			</button>
+	<div class="layui-form-item">
+		<label for="headUrl" class="layui-form-label">
+			<span class="x-red"></span>
+		</label>
+		<div class="layui-input-inline">
+			<img id="headUrl"  style="width: 100px;height: 80px" src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1576068494&di=86479095b394e81b63f1b2c83dcfabf1&src=http://img002.hc360.cn/hb/tVZ37be588c4c769A106e78cD2b03FFD30e.jpg">
 		</div>
-	</form>
+	</div>
+
+	<div class="layui-form-item">
+		<label for="file" class="layui-form-label">
+			<span class="x-red">*</span>
+		</label>
+		<div class="layui-input-inline">
+			<input type="file" id="file" name="file"  style="border-radius: 18px"/>
+			<button  id="uploadImgBtn" style="width: 40px;border-radius: 18px">上传图片</button>
+			<input  type="hidden" id="imgurl" value="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1576068494&di=86479095b394e81b63f1b2c83dcfabf1&src=http://img002.hc360.cn/hb/tVZ37be588c4c769A106e78cD2b03FFD30e.jpg"/>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label for="roombianhao" class="layui-form-label">
+			<span class="x-red">*</span>房间编号
+		</label>
+		<div class="layui-input-inline">
+			<input type="text" id="roombianhao" name="bednumber" required="" lay-verify="required"
+				   autocomplete="off" class="layui-input">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label for="roomType" class="layui-form-label">
+			<span class="x-red">*</span>房间类型
+		</label>
+		<div class="layui-input-inline">
+			<select  id="roomType"
+					 class="layui-input">
+
+			</select>
+		</div>
+	</div>
+
+
+
+
+
+	<!--          <div class="layui-form-item">-->
+	<!--                <label for="roomaccount" class="layui-form-label">-->
+	<!--                    <span class="x-red">*</span>房间数量-->
+	<!--                </label>-->
+	<!--                <div class="layui-input-inline">-->
+	<!--                    <input type="text" id="roomaccount" name="roomaccount" required="" lay-verify="required"-->
+	<!--                           autocomplete="off" class="layui-input">-->
+	<!--                </div>-->
+	<!--          </div>-->
+	<!--<div class="layui-form-item">-->
+	<!--<label for="remark" class="layui-form-label">-->
+	<!--<span class="x-red">*</span>备注-->
+	<!--</label>-->
+	<!--<div class="layui-input-inline">-->
+	<!--<input type="text" id="remark" name="remark" required="" lay-verify="required"-->
+	<!--autocomplete="off" class="layui-input">-->
+	<!--</div>-->
+	<!--</div>-->
+
+	<div class="layui-form-item">
+		<label for="add" class="layui-form-label"></label>
+		<button  id="add" class="layui-btn" >
+			修改
+		</button>
+	</div>
+
 </div>
+<script src="js/ajaxupload.js"></script>
+
+<script>
+	var roomId=location.search.split("=")[1];
+	var holeId=location.search.split("=")[2];
+	var data={"roomId":roomId,"holeId":holeId}
+	//换回修改的原信息
+	$(function () {
+		//alert(roomId+''+holeId)
+		$.ajax( {
+			type: 'post',
+			url: '/room/getOneRoom',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			data:JSON.stringify(data),
+			success:function (r) {
+
+				//图片
+				$('#headUrl').attr('src', r.room.roomImg);
+				$("#imgurl").val(r.room.roomImg);
+				var  roomtypeid=r.room.typeId
+                //类型
+				$.each(r.type,function (index,item) {
+					if (item.id==roomtypeid){
+						$("<option selected=\"selected\" value="+item.id+">"+item.typeName+"</option>").appendTo("#roomType")
+					}else {
+						$("<option value="+item.id+">"+item.typeName+"</option>").appendTo("#roomType")
+					}
+
+
+				})
+
+				//编号
+				$("#roombianhao").val(r.room.roomNumber);
+				console.log(r)
+			},
+			error:function () {
+
+			}
+		})
+
+	})
+
+	$("#add").click(function () {
+		var imgurl=$("#imgurl").val();
+		var typeName=$("select option:selected").text()
+		var typeId=$("select option:selected").val()
+		var bianhao=$("#roombianhao").val();
+		var data={"imgurl":imgurl,"typeName":typeName,"typeId":typeId,"bianhao":bianhao,"roomId":roomId}
+
+		$.ajax({
+			type: 'POST',//方法类型
+			url: '/room/updateRoom',//url
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data:JSON.stringify(data),
+			success: function (result) {
+
+				layer.alert("修改成功,请刷新", {icon: 6},function () {
+					// 获得frame索引
+					var index = parent.layer.getFrameIndex(window.name);
+					//关闭当前frame
+					parent.layer.close(index);
+				});
+			},
+			error: function () {
+				alert("修改失败")
+			}
+		})
+
+
+	})
+
+
+
+
+	$("#uploadImgBtn").click(function () {
+		$.ajaxFileUpload({
+					url: '/file/images', //用于文件上传的服务器端请求地址
+					secureuri: false, //是否需要安全协议，一般设置为false
+					fileElementId: 'file', //文件上传域的ID
+					dataType: 'json', //返回值类型 一般设置为json
+					success: function (data, status)  //服务器成功响应处理函数
+					{
+						console.log(data)
+						$("#imgurl").val(data);
+						alert($("#imgurl").val()+"上传成功")
+					},
+					error: function (data, status, e)//服务器响应失败处理函数
+					{
+						alert(e)
+					}
+				}
+		)
+
+	})
+
+
+	//将选择的图片渲染到页面上
+	$('#file').change(function(e) {
+		var _URL = window.URL || window.webkitURL;
+		var file, img;
+		if ((file = this.files[0])) {
+			img = new Image();
+			img.onload = function() {
+				//头像 操作图片
+				$('#headUrl').attr('src', this.src);
+			};
+			img.src = _URL.createObjectURL(file);
+		}
+	})
+	// function upload() {
+	//     var formData = new FormData();
+	//     var file = document.getElementById("file").files[0];
+	//     formData.append("file", file);
+	//     $.ajax({
+	//         url:"/file/images",
+	//         type:"POST",
+	//         data:formData,
+	//         processData : false,
+	//         contentType : false,
+	//         dataType : 'json',
+	//         async : false,
+	//         success : function (result) {
+	//             alert("ss")
+	//         }
+	//     });
+	// }
+
+
+</script>
 <script>
 	layui.use(['form','layer'], function(){
 		$ = layui.jquery;
@@ -120,15 +252,15 @@
 
 		//监听提交
 		form.on('submit(add)', function(data){
-			console.log(data);
-			//发异步，把数据提交给php
+
+
 			layer.alert("增加成功", {icon: 6},function () {
 				// 获得frame索引
 				var index = parent.layer.getFrameIndex(window.name);
 				//关闭当前frame
 				parent.layer.close(index);
 			});
-			return false;
+
 		});
 
 
@@ -141,4 +273,5 @@
 	s.parentNode.insertBefore(hm, s);
 })();</script>
 </body>
+
 </html>

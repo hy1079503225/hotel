@@ -26,7 +26,7 @@
 
 
     <div class="layui-form-item">
-        <label for="headUrl" class="layui-form-label">
+        <label for="roomtype" class="layui-form-label">
             <span class="x-red"></span>
         </label>
         <div class="layui-input-inline">
@@ -45,40 +45,56 @@
         </div>
     </div>
 
+
     <div class="layui-form-item">
-        <label for="roomId" class="layui-form-label">
-            <span class="x-red">*</span>输入房间编号
+        <label for="typeName" class="layui-form-label">
+            <span class="x-red">*</span>房间类型
         </label>
         <div class="layui-input-inline">
-            <input type="text" id="roomId" name="window" required="" lay-verify="required"
+            <input type="text" id="typeName" name="roomtype" required="" lay-verify="required"
                    autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label for="hotle" class="layui-form-label">
-            <span class="x-red">*</span>选择酒店
+        <label for="bedType" class="layui-form-label">
+            <span class="x-red">*</span>床的类型
         </label>
         <div class="layui-input-inline">
-            <select  id="hotle"  onchange="gettype()"
-                     class="layui-input">
-
-            </select>
+            <input type="text" id="bedType" name="bednumber" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
         </div>
     </div>
-
 
     <div class="layui-form-item">
-        <label for="typeName" class="layui-form-label">
-            <span class="x-red">*</span>选择类型
+        <label for="area" class="layui-form-label">
+            <span class="x-red">*</span>面积
         </label>
         <div class="layui-input-inline">
-            <select  id="typeName"
-                     class="layui-input">
-
-            </select>
+            <input type="text" id="area" name="bedsize" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <label for="price" class="layui-form-label">
+            <span class="x-red">*</span>价格
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="price" name="window" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="window" class="layui-form-label">
+            <span class="x-red">*</span>描述
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="window" name="area" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
 
     <!--          <div class="layui-form-item">-->
     <!--                <label for="roomaccount" class="layui-form-label">-->
@@ -102,7 +118,7 @@
     <div class="layui-form-item">
         <label for="add" class="layui-form-label"></label>
         <button  id="add" class="layui-btn" >
-            添加
+            修改
         </button>
     </div>
 
@@ -110,19 +126,22 @@
 <script src="js/ajaxupload.js"></script>
 
 <script>
-    var userId=1;
+    var roomTypeId=location.search.split("=")[1];
+    //换回修改的原信息
     $(function () {
         $.ajax( {
             type: 'post',
-            url: '/room/getUserHotel/'+userId,
+            url: '/room/getOneRoomType/'+roomTypeId,
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             success:function (r) {
-                console.log(r)
-                $.each(r,function (index, item) {
-                    $("<option value="+item.id+">"+item.hotelName+"</option>").appendTo("#hotle")
-                })
-
+                 $('#headUrl').attr('src', r.imgUrl);
+                var imgurl=$("#imgurl").val(r.imgUrl);
+                var typeName=$("#typeName").val(r.typeName);
+                var bedType=$("#bedType").val(r.bedType);
+                var area=$("#area").val(r.area);
+                var price=$("#price").val(r.price);
+                var window1=$("#window").val(r.window);
             },
             error:function () {
 
@@ -131,48 +150,26 @@
 
     })
 
-    //选择酒店后获取类型列表
-    function gettype(){
-        var hotleId=$("#hotle option:selected").val()
-        //var hotleName=$("select option:selected").text()
-        $.ajax( {
-            type: 'post',
-            url: '/room/getUserHoteltyoes/'+hotleId,
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            success:function (r) {
-                console.log(r)
-                $.each(r,function (index, item) {
-                    $("<option value="+item.id+">"+item.typeName+"</option>").appendTo("#typeName")
-                })
-
-            },
-            error:function () {
-
-            }
-        })
-
-
-    }
-
-
     $("#add").click(function () {
         var imgurl=$("#imgurl").val();
-        var typeName=$("#typeName  option:selected").text();
-        var typeId=$("#typeName  option:selected").val();
-        var roomId=$("#roomId").val();
-        var hotleId=$("#hotle option:selected").val()
-        var hotleName=$("#hotle option:selected").text()
-        var data={"imgurl":imgurl,"typeName":typeName,"roomId":roomId,"typeId":typeId,"hotleId":hotleId,"hotleName":hotleName}
+        var typeName=$("#typeName").val();
+        var bedType=$("#bedType").val();
+        var area=$("#area").val();
+        var price=$("#price").val();
+        var window1=$("#window").val();
+
+        var data={"imgurl":imgurl,"typeName":typeName,"bedType":bedType,"area":area,"price":price,
+            "window":window1,"id":roomTypeId}
 
         $.ajax({
             type: 'POST',//方法类型
-            url: '/room/addRoom',//url
+            url: '/room/updateRoomType',//url
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             data:JSON.stringify(data),
             success: function (result) {
-                layer.alert("增加成功,请刷新", {icon: 6},function () {
+
+                layer.alert("修改成功,请刷新", {icon: 6},function () {
                     // 获得frame索引
                     var index = parent.layer.getFrameIndex(window.name);
                     //关闭当前frame
@@ -180,6 +177,7 @@
                 });
             },
             error: function () {
+                alert("修改失败")
             }
 
         })

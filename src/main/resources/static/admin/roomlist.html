@@ -50,7 +50,8 @@
     <thead>
     <tr>
       <th>
-        <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+        <input type="checkbox"  name="all" id="all"  onchange="xuanzhe()"/>
+        <!--<div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>-->
       </th>
       <th>酒店名字</th>
       <th>房间号</th>
@@ -66,7 +67,7 @@
 
     <tr>
       <td>
-        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+        <input type="checkbox"  id="roomids"  name="roomids" :value="room.id"  />
       </td>
       <td v-text="room.hotelName"></td>
       <td v-text="room.roomNumber"></td>
@@ -78,9 +79,9 @@
       <td v-text="room.updateTime"></td>
 
       <td class="td-manage">
-        <!--              <a title="修改"  onclick="x_admin_show('修改','order-update.html')" href="javascript:;">-->
-        <!--                <i class="layui-icon">&#xe63c;</i>-->
-        <!--              </a>-->
+        <a title="修改"  @click="x_admin_show2('修改','roomupdate.html?id='+room.id+'='+room.hotelId)" href="javascript:;">
+          <i class="layui-icon">&#xe63c;</i>
+        </a>
         <a title="删除" @click="member_del(room.id)" href="javascript:;">
           <i class="layui-icon">&#xe640;</i>
         </a>
@@ -183,11 +184,54 @@
         }
 
       },
+      x_admin_show2(title,url,w,h){
+        if (title == null || title == '') {
+          title=false;
+        };
+        if (url == null || url == '') {
+          url="404.html";
+        };
+        if (w == null || w == '') {
+          w=($(window).width()*0.9);
+        };
+        if (h == null || h == '') {
+          h=($(window).height() - 50);
+        };
+        layer.open({
+          type: 2,
+          area: [w+'px', h +'px'],
+          fix: false, //不固定
+          maxmin: true,
+          shadeClose: true,
+          shade:0.4,
+          title: title,
+          content: url
+        });
+      },
 
   },
 
   })
 
+
+</script>
+<script>
+  function xuanzhe(){
+    if($("#all").is(':checked')){
+      $('input[name="roomids"]').each(function(){
+        $(this).prop("checked",true);
+      });
+    }else{
+      $('input[name="roomids"]').each(function(){
+        $(this).prop("checked",false);
+      });
+  }
+
+
+
+
+
+  }
 
 </script>
 <script>
@@ -238,15 +282,32 @@
   //   });
   // }
 
-  function delAll (argument) {
+  function delAll () {
 
     var data = tableCheck.getData();
-
-    layer.confirm('确认要删除吗？'+data,function(index){
-      //捉到所有被选中的，发异步进行删除
-      layer.msg('删除成功', {icon: 1});
-      $(".layui-form-checked").not('.header').parents('tr').remove();
+    var ids=""
+    var len=$('input[name="roomids"]:checked').length
+    $.each($('input[name="roomids"]:checked'),function (index, item){
+      if(item.checked){
+        ids+=$(this).val().toString()+"-";
+      }
     });
+    if (ids==""||ids==null){
+      return
+    }
+    if(confirm("确定删删除吗")){
+      $.ajax({
+        url:"/room/deleteroomids/"+ids,
+        type:"post",
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        success:function(result){
+          alert("删除成功请刷新")
+        }
+      });	}
+
+
+
   }
 </script>
 <script>var _hmt = _hmt || []; (function() {
