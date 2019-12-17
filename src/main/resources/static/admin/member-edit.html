@@ -38,7 +38,7 @@
                 <span class="x-red">*</span>姓名
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="name" name="name" required="" lay-verify="required|username"
+                <input type="text" id="name" name="name" required="" lay-verify="required|name"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -139,17 +139,27 @@
         //自定义验证规则
         form.verify({
             username: function (value) {
+                value = value.trim();
                 var han = /^[\u4e00-\u9fa5_a-zA-Z0-9]{2,16}$/;
                 if (!han.test(value)) {
-                    return '昵称|姓名只能为2-16位字母汉字及数字';
+                    return '昵称只能为2-16位字母汉字及数字';
+                }
+            },
+            name: function (value) {
+                value = value.trim();
+                var han = /^[\u4e00-\u9fa5_a-zA-Z]{2,16}$/;
+                if (!han.test(value)) {
+                    return '姓名只能为2-16位字母及汉字';
                 }
             },
             gender: function (value) {
+                value = value.trim();
                 if (value != '男' && value != '女') {
                     return '性别只能填男/女';
                 }
             },
             card: function (value) {
+                value = value.trim();
                 //身份证非法地区校验
                 aCity = {
                     11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古",
@@ -169,15 +179,15 @@
 
         //监听提交
         form.on('submit(add)', function () {
-            var id = myForm.id.value;
-            var username = myForm.username.value;
-            var name = myForm.name.value;
-            var gender = myForm.gender.value;
+            var id = myForm.id.value.trim();
+            var username = myForm.username.value.trim();
+            var name = myForm.name.value.trim();
+            var gender = myForm.gender.value.trim();
             var genderInt = (gender=='男')?1:2;
-            var phone = myForm.phone.value;
-            var email = myForm.email.value;
-            var address = myForm.address.value;
-            var cardId = myForm.cardId.value;
+            var phone = myForm.phone.value.trim();
+            var email = myForm.email.value.trim();
+            var address = myForm.address.value.trim();
+            var cardId = myForm.cardId.value.trim();
 
             $.post(
                 "/user/updateUserById",
