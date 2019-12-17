@@ -21,5 +21,21 @@ public interface RoomService {
 
     List<Hotel> getUserHel(Integer userId);
 
-    ResponseEntity addRoomType(Map<String, Object> map);
+    ResponseEntity<List<String>> addRoomType(Map<String, Object> map);
+
+    ResponseEntity<RoomType> getOneRoomType(Integer roomTypeId);
+
+    ResponseEntity<List<String>> updateRoomType(Map<String, Object> map);
+
+    List<RoomType> getUserHoteltyoes(Integer hotleId);
+
+    ResponseEntity<List<String>> addRoom(Map<String, Object> map);
+
+    ResponseEntity<Map<String, Object>> getOneRoomAndtype(Map<String, Object> map);
+
+    ResponseEntity<List<String>> updateRoom(Map<String, Object> map);
+
+    ResponseEntity<List<String>> deleteroomids(String roomIds);
+
+    ResponseEntity<List<String>> deleteroomtypeids(String roomIds);
 }

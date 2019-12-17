@@ -109,9 +109,63 @@ public class RoomConller {
        return null;
    }
 
+
+    @RequestMapping("getUserHoteltyoes/{hotleId}")
+    public ResponseEntity<List<RoomType>> getUserHoteltyoes(@PathVariable("hotleId")  Integer hotleId){
+        if (hotleId!=null){
+            return ResponseEntity.ok( roomService.getUserHoteltyoes(hotleId));
+        }
+        return null;
+    }
+
+
    @RequestMapping("addRoomType")
-   public ResponseEntity addRoomType(@RequestBody Map<String,Object> map){
+   public ResponseEntity<List<String>> addRoomType(@RequestBody Map<String,Object> map) {
+
        return roomService.addRoomType(map);
    }
 
+
+    @RequestMapping("addRoom")
+    public ResponseEntity<List<String>> addRoom(@RequestBody Map<String,Object> map) {
+
+        return roomService.addRoom(map);
+    }
+
+   @RequestMapping("getOneRoomType/{roomTypeId}")
+   public ResponseEntity<RoomType> getOneRoomType(@PathVariable("roomTypeId") Integer roomTypeId){
+
+        return roomService.getOneRoomType(roomTypeId);
+   }
+
+    @RequestMapping("updateRoomType")
+    public ResponseEntity<List<String>> updateRoomType(@RequestBody Map<String,Object> map) {
+        System.out.println(1);
+        return roomService.updateRoomType(map);
+    }
+
+    @RequestMapping("updateRoom")
+    public ResponseEntity<List<String>> updateRoom(@RequestBody Map<String,Object> map) {
+        System.out.println(1);
+        return roomService.updateRoom(map);
+    }
+
+    @RequestMapping("getOneRoom")
+    public ResponseEntity<Map<String,Object>> getOneRoomAndtype(@RequestBody Map<String,Object> map) {
+        System.out.println(1);
+        return roomService.getOneRoomAndtype(map);
+    }
+
+
+    @RequestMapping("deleteroomids/{ids}")
+    public ResponseEntity<List<String>> deleteroomids(@PathVariable("ids") String roomIds){
+        System.out.println("进入到控制层");
+        return roomService.deleteroomids(roomIds);
+    }
+
+    @RequestMapping("deleteroomtypeids/{ids}")
+    public ResponseEntity<List<String>> deleteroomtypeids(@PathVariable("ids") String roomIds){
+        System.out.println("进入到控制层");
+        return roomService.deleteroomtypeids(roomIds);
+    }
 }

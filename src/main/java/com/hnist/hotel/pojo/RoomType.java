@@ -3,10 +3,11 @@ package com.hnist.hotel.pojo;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "room_type")
-public class RoomType {
+public class RoomType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

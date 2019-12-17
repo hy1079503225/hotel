@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
+import java.util.List;
+
 /**
  * @Filename
  * @auther 吴星辰;
@@ -21,4 +23,7 @@ public interface RoomTypeMapper extends Mapper<RoomType> {
 
     @Update("update room_type set num=num+#{i} where id=#{typeId}")
     Integer updateNum(Integer typeId, int i);
+
+
+
 }
