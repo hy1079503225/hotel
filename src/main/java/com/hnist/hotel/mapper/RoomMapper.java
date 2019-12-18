@@ -2,7 +2,9 @@ package com.hnist.hotel.mapper;
 
 import com.hnist.hotel.pojo.Room;
 import com.hnist.hotel.pojo.RoomType;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -23,4 +25,10 @@ public interface RoomMapper extends Mapper<Room> {
 
     @Select("select room_type from room_type where id=#{roomId}")
     String getRoomName(Integer roomTyteId);
+
+    @Delete("delete  from room where id=#{roomId}")
+    Integer delectRoomForId(Integer roomId);
+
+    @Update("update room set type_id=0 ,room_type='无' where type_id=#{roomTypeId}")
+    Integer updateRoomTypeForBytepyId(Integer roomTypeId);
 }

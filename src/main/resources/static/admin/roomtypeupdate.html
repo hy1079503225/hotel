@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="x-body">
+
+
+
+
+    <div class="layui-form-item">
+        <label for="roomtype" class="layui-form-label">
+            <span class="x-red"></span>
+        </label>
+        <div class="layui-input-inline">
+            <img id="headUrl"  style="width: 100px;height: 80px" src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1576068494&di=86479095b394e81b63f1b2c83dcfabf1&src=http://img002.hc360.cn/hb/tVZ37be588c4c769A106e78cD2b03FFD30e.jpg">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label for="file" class="layui-form-label">
+            <span class="x-red">*</span>
+        </label>
+        <div class="layui-input-inline">
+            <input type="file" id="file" name="file"  style="border-radius: 18px"/>
+            <button  id="uploadImgBtn" style="width: 40px;border-radius: 18px">上传图片</button>
+            <input  type="hidden" id="imgurl" value="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1576068494&di=86479095b394e81b63f1b2c83dcfabf1&src=http://img002.hc360.cn/hb/tVZ37be588c4c769A106e78cD2b03FFD30e.jpg"/>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label for="typeName" class="layui-form-label">
+            <span class="x-red">*</span>房间类型
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="typeName" name="roomtype" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label for="bedType" class="layui-form-label">
+            <span class="x-red">*</span>床的类型
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="bedType" name="bednumber" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label for="area" class="layui-form-label">
+            <span class="x-red">*</span>面积
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="area" name="bedsize" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label for="price" class="layui-form-label">
+            <span class="x-red">*</span>价格
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="price" name="window" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="window" class="layui-form-label">
+            <span class="x-red">*</span>描述
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="window" name="area" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <!--          <div class="layui-form-item">-->
+    <!--                <label for="roomaccount" class="layui-form-label">-->
+    <!--                    <span class="x-red">*</span>房间数量-->
+    <!--                </label>-->
+    <!--                <div class="layui-input-inline">-->
+    <!--                    <input type="text" id="roomaccount" name="roomaccount" required="" lay-verify="required"-->
+    <!--                           autocomplete="off" class="layui-input">-->
+    <!--                </div>-->
+    <!--          </div>-->
+    <!--<div class="layui-form-item">-->
+    <!--<label for="remark" class="layui-form-label">-->
+    <!--<span class="x-red">*</span>备注-->
+    <!--</label>-->
+    <!--<div class="layui-input-inline">-->
+    <!--<input type="text" id="remark" name="remark" required="" lay-verify="required"-->
+    <!--autocomplete="off" class="layui-input">-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <div class="layui-form-item">
+        <label for="add" class="layui-form-label"></label>
+        <button  id="add" class="layui-btn" >
+            修改
+        </button>
+    </div>
+
+</div>
+<script src="js/ajaxupload.js"></script>
+
+<script>
+    var roomTypeId=location.search.split("=")[1];
+    //换回修改的原信息
+    $(function () {
+        $.ajax( {
+            type: 'post',
+            url: '/room/getOneRoomType/'+roomTypeId,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:function (r) {
+                 $('#headUrl').attr('src', r.imgUrl);
+                var imgurl=$("#imgurl").val(r.imgUrl);
+                var typeName=$("#typeName").val(r.typeName);
+                var bedType=$("#bedType").val(r.bedType);
+                var area=$("#area").val(r.area);
+                var price=$("#price").val(r.price);
+                var window1=$("#window").val(r.window);
+            },
+            error:function () {
+
+            }
+        })
+
+    })
+
+    $("#add").click(function () {
+        var imgurl=$("#imgurl").val();
+        var typeName=$("#typeName").val();
+        var bedType=$("#bedType").val();
+        var area=$("#area").val();
+        var price=$("#price").val();
+        var window1=$("#window").val();
+
+        var data={"imgurl":imgurl,"typeName":typeName,"bedType":bedType,"area":area,"price":price,
+            "window":window1,"id":roomTypeId}
+
+        $.ajax({
+            type: 'POST',//方法类型
+            url: '/room/updateRoomType',//url
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data:JSON.stringify(data),
+            success: function (result) {
+
+                layer.alert("修改成功,请刷新", {icon: 6},function () {
+                    // 获得frame索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //关闭当前frame
+                    parent.layer.close(index);
+                });
+            },
+            error: function () {
+                alert("修改失败")
+            }
+
+        })
+
+
+
+    })
+
+
+
+
+    $("#uploadImgBtn").click(function () {
+        $.ajaxFileUpload({
+                url: '/file/images', //用于文件上传的服务器端请求地址
+                secureuri: false, //是否需要安全协议，一般设置为false
+                fileElementId: 'file', //文件上传域的ID
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data, status)  //服务器成功响应处理函数
+                {
+                    console.log(data)
+                    $("#imgurl").val(data);
+                    alert($("#imgurl").val()+"上传成功")
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e)
+                }
+            }
+        )
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+    //将选择的图片渲染到页面上
+    $('#file').change(function(e) {
+        var _URL = window.URL || window.webkitURL;
+        var file, img;
+        if ((file = this.files[0])) {
+            img = new Image();
+            img.onload = function() {
+                //头像 操作图片
+                $('#headUrl').attr('src', this.src);
+            };
+            img.src = _URL.createObjectURL(file);
+        }
+    })
+    // function upload() {
+    //     var formData = new FormData();
+    //     var file = document.getElementById("file").files[0];
+    //     formData.append("file", file);
+    //     $.ajax({
+    //         url:"/file/images",
+    //         type:"POST",
+    //         data:formData,
+    //         processData : false,
+    //         contentType : false,
+    //         dataType : 'json',
+    //         async : false,
+    //         success : function (result) {
+    //             alert("ss")
+    //         }
+    //     });
+    // }
+
+
+</script>
+<script>
+    layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+        var form = layui.form
+            ,layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({
+            nikename: function(value){
+                if(value.length < 5){
+                    return '昵称至少得5个字符啊';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,repass: function(value){
+                if($('#L_pass').val()!=$('#L_repass').val()){
+                    return '两次密码不一致';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(add)', function(data){
+
+
+            layer.alert("增加成功", {icon: 6},function () {
+                // 获得frame索引
+                var index = parent.layer.getFrameIndex(window.name);
+                //关闭当前frame
+                parent.layer.close(index);
+            });
+
+        });
+
+
+    });
+</script>
+<script>var _hmt = _hmt || []; (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();</script>
+</body>
+
+</html>

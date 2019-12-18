@@ -13,25 +13,50 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/xcity.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 
 <body>
 <div class="x-body">
-    <form class="layui-form">
-        <div class="layui-form-item">
-            <label for="hotelimg" class="layui-form-label">
-                <span class="x-red">*</span>酒店图片
-            </label>
-            <div class="layui-input-inline">
-                <input type="file" id="hotelimg" name="hotelimg" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
+
+        <input type="text" hidden id="hotelid">
+
+    <div class="layui-form-item">
+        <label for="roomtype" class="layui-form-label">
+            <span class="x-red"></span>
+        </label>
+        <div class="layui-input-inline" style="position: relative">
+            <input  type="file" id="file" name="file"  style="opacity:0;width:190px;height:150px;border-radius: 18px;position: absolute;overflow: hidden"/>
+            <img  type="file" id="headUrl"  style="width: 190px;height: 150px" src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1576068494&di=86479095b394e81b63f1b2c83dcfabf1&src=http://img002.hc360.cn/hb/tVZ37be588c4c769A106e78cD2b03FFD30e.jpg">
         </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="file" class="layui-form-label">
+            <span class="x-red">*</span>
+        </label>
+        <div class="layui-input-inline">
+
+            <button  id="uploadImgBtn" style="width: 50px;height:50px;border-radius: 150px">上传图片</button>
+            <input  type="hidden" id="hotelImg" value="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1576068494&di=86479095b394e81b63f1b2c83dcfabf1&src=http://img002.hc360.cn/hb/tVZ37be588c4c769A106e78cD2b03FFD30e.jpg"/>
+        </div>
+    </div>
+
+
+    <!--<div class="layui-form-item">-->
+            <!--<label for="hotelimg" class="layui-form-label">-->
+                <!--<span class="x-red">*</span>酒店图片-->
+            <!--</label>-->
+            <!--<div class="layui-input-inline">-->
+                <!--<input type="file" id="hotelimg" name="hotelimg" required="" lay-verify="required"-->
+                       <!--autocomplete="off" class="layui-input">-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="layui-form-item">
             <label for="hotelname" class="layui-form-label">
                 <span class="x-red">*</span>酒店名字
@@ -41,15 +66,16 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="city" class="layui-form-label">
-                <span class="x-red">*</span>城市
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="city" name="city" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
+        <!--<div class="layui-form-item">-->
+            <!--<label for="city" class="layui-form-label">-->
+                <!--<span class="x-red">*</span>城市-->
+            <!--</label>-->
+            <!--<div class="layui-input-inline">-->
+                <!--<input type="text" id="city" name="city" required="" lay-verify="required"-->
+                       <!--autocomplete="off" class="layui-input">-->
+            <!--</div>-->
+            <!---->
+        <!--</div>-->
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
                 <span class="x-red">*</span>酒店电话
@@ -90,15 +116,134 @@
             </div>
         </div>
 
+    <div class="layui-form-item">
+        <label for="website" class="layui-form-label">
+            <span class="x-red">*</span>酒店房间最低价格
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="hotellowprice" name="hotellowprice" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
         <div class="layui-form-item">
             <label for="add" class="layui-form-label">
             </label>
-            <button  id="add" class="layui-btn" lay-filter="add" lay-submit="">
-                增加
+            <button id="uphotel" class="layui-btn" lay-filter="add" lay-submit="">
+                保存
             </button>
         </div>
-    </form>
+
 </div>
+
+<script>
+
+    $(function () {
+        set();
+    });
+
+    function set() {
+        var url=location.search;
+        url=url.split('?')[1];
+        url=url.split('=')[1];
+        $.post(
+            "/hotel/loadhotelone",
+            {hotelid:url},
+        function (data) {
+               var json= JSON.parse(data);
+               var img="/upload/"+json.hotelImg;
+              $("#hotelid").val(json.id);
+            $("#headUrl").attr("src",img);
+             $("#hotelname").val(json.hotelName);
+             $("#phone").val(json.phone);
+             $("#city").val(json.city);
+             $("#address").val(json.address);
+             $("#website").val(json.website);
+             $("#email").val(json.email);
+             $("#hotellowprice").val(json.hotellowprice);
+        }
+        );
+    }
+
+
+
+    $("#uphotel").click(function () {
+        var hotelid=$("#hotelid").val();
+        var hotelImg=   $("#hotelImg").val();
+        var hotelName=$("#hotelName").val();
+        var city=$("#city").val();
+        var phone=$("#phone").val();
+        var email=$("#email").val();
+        var address=$("#address").val();
+        var website=$("#website").val();
+        var data={"hotelid":hotelid,"hotelImg":hotelImg,"hotelName":hotelName,"city":city,"phone":phone,"email":email
+            ,"address":address,"website":website}
+        $.ajax({
+            url: "/hotel/updatehotel",
+            type:'post',
+            dataType:"json",
+            contentType: "application/json; charset=utf-8",
+            data:JSON.stringify(data),
+            success:function (data) {
+                if (data==true){
+                    layer.alert("修改成功,请刷新", {icon: 6},function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
+                } else {
+                    layer.alert("修改失败");
+                }
+
+            },
+            // error:function (data) {
+            //       layer.alert("增加失败");
+            // }
+        });
+    });
+
+
+
+    // <!--图片先上传-->
+    $("#uploadImgBtn").click(function () {
+        $.ajaxFileUpload({
+                url: '/file/images', //用于文件上传的服务器端请求地址
+                secureuri: false, //是否需要安全协议，一般设置为false
+                fileElementId: 'file', //文件上传域的ID
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data, status)  //服务器成功响应处理函数
+                {
+                    console.log(data)
+                    $("#imgurl").val(data);
+                    alert($("#imgurl").val()+"上传成功")
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e)
+                }
+            }
+        )
+
+    })
+
+
+    //将选择的图片渲染到页面上
+    $('#file').change(function(e) {
+        var _URL = window.URL || window.webkitURL;
+        var file, img;
+        if ((file = this.files[0])) {
+            img = new Image();
+            img.onload = function() {
+                //头像 操作图片
+                $('#headUrl').attr('src', this.src);
+            };
+            img.src = _URL.createObjectURL(file);
+        }
+    })
+</script>
+
+
 <script>
     layui.use(['form','layer'], function(){
         $ = layui.jquery;

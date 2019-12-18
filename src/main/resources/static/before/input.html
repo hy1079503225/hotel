@@ -20,7 +20,8 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
-    <link rel="shortcut icon" href="images/ico/favicon.ico"> 
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+
 </head> 
 
 <body id="home">
@@ -53,40 +54,38 @@
                 <div class="row">
 				  <div class="col-sm-4 col-md-4">
                     <div class="contact-form">
-                    <h2>您的预订</h2>
+                    <h2 >您的预订</h2>
                     <hr>
-                    <h3>酒店门店：</h3>
-                    <h3>房间名字：</h3>
-                    <h3>房间类型：</h3>
-                    <h3>房间价格：</h3>
+                        <h3>酒店门店：<span id="hotelname" ></span></h3>
+                        <h3>房间类型：<span id="roomtype"></span></h3>
+                        <h3>房间号：<span id="roomnumber"></span></h3>
+                        <h3>房间价格：<span id="roomprice"></span></h3>
                 	</div>
                 </div>
                     <div class="col-sm-8 col-md-8">
                         <div class="contact-form">
-                       
-                            <form id="main-contact-form" name="contact-form" method="post" action="#">
-
+                            <form id="main-contact-form" name="contact-form" method="post" action="../order/createorder">
                                 <div class="form-group">
-                                    <label for="fname">姓名</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Name" required id="fname">
+                                    <label for="name">姓名</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Name" required id="name">
                                 </div>
                                 <div class="form-group">
-                                    <label for="fname">电话</label>
-                                    <input type="text" name="phone" class="form-control" placeholder="phone" required id="fphone">
+                                    <label for="phone">电话</label>
+                                    <input type="text" name="phone" class="form-control" placeholder="phone" required id="phone">
                                 </div>
                                 <div class="form-group">
-                                    <label for="fname">身份证</label>
-                                    <input type="text" name="id_card" class="form-control" placeholder="id_card" required id="fid_card">
+                                    <label for="id_card">身份证</label>
+                                    <input type="text" name="id_card" class="form-control" placeholder="id_card" required id="id_card">
                                 </div>
                                 <div class="form-group">
-                                    <label for="fname">入住时间</label>
-                                    <input type="date" name="ruzhu_time" class="form-control" placeholder="Check-in time" required>
+                                    <label for="checkintime">入住时间</label>
+                                    <input type="date" name="checkintime" class="form-control" placeholder="checkintime" required id="checkintime">
                                 </div>
                                 <div class="form-group">
-                                    <label for="fname">退房时间</label>
-                                    <input type="date" name="tuifang_time" class="form-control" placeholder="Check-out time" required>
+                                    <label for="checkouttime">退房时间</label>
+                                    <input type="date" name="checkouttime" class="form-control" placeholder="checkouttime" required id="checkouttime">
                                 </div>
-                                <button type="submit" class="btn btn-primary">点击预定</button>
+                                <button type="submit" class="btn btn-primary" id="order">点击预定</button>
                             </form>
                         </div>
                     </div>
@@ -125,5 +124,71 @@
     <script type="text/javascript" src="js/jquery.slitslider.js"></script>
 	<script type="text/javascript" src="js/slitslider-custom.js"></script>
     <script src="js/custom-scripts.js"></script>
+
+    <script>
+        $("#hotelname").html("长沙岳麓区烟农创业大厦");
+        $("#roomtype").html("情趣房");
+        $("#roomnumber").html("1001");
+        $("#roomprice").html("535");
+    </script>
+    <script>
+        localStorage.setItem("hotelname",$("#hotelname").html());
+        localStorage.setItem("roomnumber",$("#roomnumber").html());
+        localStorage.setItem("roomtype",$("#roomtype").html());
+        localStorage.setItem("roomprice",$("#roomprice").html());
+        localStorage.setItem("name", $("#name").val());
+        localStorage.setItem("sex",$("#sex").val());
+        localStorage.setItem("telphone",$("#telphone").val());
+        localStorage.setItem("checkintime",$("#checkintime").val());
+        localStorage.setItem("checkouttime",$("#checkouttime").val());
+       alert($("#roomprice").html());
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            $("#order").on("click",function () {
+                var name = $("#name").val();
+                var phone = $("#phone").val();
+                var id_card = $("#id_card").val();
+                var checkintime = $("#checkintime").val();
+                var checkouttime = $("#checkouttime").val();
+                if (name == null || name == ""){
+                    alert("姓名不能为空！");
+                    return false;
+                }
+                if (phone == null || phone == ""){
+                    alert("手机号不能为空！");
+                    return false;
+                }
+                if (id_card == null || id_card == ""){
+                    alert("身份证不能不填！！！");
+                    return false;
+                }
+                if (checkintime == null || checkintime == ""){
+                    alert("入住时间不能为空！");
+                    return false;
+                }
+                if (checkouttime == null || checkouttime == ""){
+                    alert("退房时间不能为空！");
+                    return false;
+                }
+
+                $.ajax({
+                    type:"post",
+                    contentType:"application/json;charset=utf-8",
+                    url:"/order/input",
+                    data:{
+                        "name":name,
+                        "phone":phone,
+                        "id_card":id_card,
+                        "checkintime":checkintime,
+                        "checkouttime":checkouttime
+                    },
+                    success:function (data) {
+                        window.location.href="/before/orderend.html";
+                    }
+                })
+            })
+        })
+    </script>
 </body>
 </html>

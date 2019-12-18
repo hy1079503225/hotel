@@ -31,70 +31,203 @@
   <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
     <i class="layui-icon" style="line-height:30px">ဂ</i></a>
 </div>
-<div class="x-body">
+<div class="x-body" id="roomApp">
   <div class="layui-row">
-    <form class="layui-form layui-col-md12 x-so">
+    <!--<form class="layui-form layui-col-md12 x-so">-->
 
-      <input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">
-      <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-    </form>
+      <!--<input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">-->
+      <!--<button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>-->
+    <!--</form>-->
   </div>
   <xblock>
     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
     <button class="layui-btn" onclick="x_admin_show('添加用户','./roomtypeadd.html')"><i class="layui-icon"></i>添加</button>
-    <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+    <span class="x-right" style="line-height:40px">共有数据：{{this.total}}条</span>
   </xblock>
   <table class="layui-table">
     <thead>
     <tr>
       <th>
-        <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+        <input type="checkbox"  name="all" id="all"  onchange="xuanzhe()"/>
+        <!--<div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>-->
       </th>
+      <th>酒店名字</th>
       <th>房间类型</th>
-      <th>备注</th>
+      <th>类型图片</th>
       <th>面积</th>
-      <th>床的数量</th>
-      <th>床的大小</th>
-      <th>窗户</th>
-      <th>状态</th>
+      <th>床形</th>
+      <th>描述</th>
+      <th>价格</th>
+      <th>数量</th>
       <th >操作</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody v-for="room in roomList" :key="room.id">
     <tr>
       <td>
-        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+        <input type="checkbox"  id="roomids"  name="roomids" :value="room.id"  />
       </td>
-      <td>老王:18925139194</td>
-      <td>7829.10</td>
-      <td>7854.10</td>
-      <td>待确认</td>
-      <td>7829.10</td>
-      <td>7854.10</td>
-      <td>待确认</td>
+      <td v-text="room.hotelName"></td>
+      <td  v-text="room.typeName"></td>
+      <td ><img :src="room.imgUrl"></td>
+      <td v-text="room.area"></td>
+      <td v-text="room.bedType"></td>
+      <td v-text="room.window"></td>
+      <td v-text="room.price"></td>
+      <td v-text="room.num"></td>
       <td class="td-manage">
-        <a title="修改"  onclick="x_admin_show('修改','roomupdate.html')" href="javascript:;">
+        <a title="修改"  @click="x_admin_show2('修改','roomtypeupdate.html?id='+room.id)" href="javascript:;">
           <i class="layui-icon">&#xe63c;</i>
         </a>
-        <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <a title="删除"@click="member_del(room.id)" href="javascript:;">
           <i class="layui-icon">&#xe640;</i>
         </a>
       </td>
     </tr>
+
+
     </tbody>
   </table>
   <div class="page">
     <div>
-      <a class="prev" href="">&lt;&lt;</a>
-      <a class="num" href="">1</a>
-      <span class="current">2</span>
-      <a class="num" href="">3</a>
-      <a class="num" href="">489</a>
-      <a class="next" href="">&gt;&gt;</a>
+      <a class="prev"  @click="deletePage()">&lt;&lt;</a>
+      <span class="current" v-text="this.search.page"></span>
+      <a class="next"  @click="addPage()">&gt;&gt;</a> 共{{this.totalPage}}页
     </div>
   </div>
 
 </div>
+<script src="js/vue.js"></script>
+
+<script src="js/vue-resource.js"></script>
+<script>
+  var roomApp=new Vue({
+    el: "#roomApp",    // 元素
+    data: {
+      search: {
+        userId: 1,
+        page: 1,
+      },
+      totalPage: 0,
+      total:0,
+      roomList: [],
+      holeName:"",
+      // sixSinger:[],
+    },
+    created() {
+
+      // this.search.holtId=location.search.split("=")[1];
+      this.ajaxGoPageSearch();
+      //this.ajaxGoGetSixSinger();
+    },
+    // watch: {
+    //     search: {
+    //         deep: true,
+    //         handler(val, old) {
+    //             this.ajaxGoPageSearch();
+    //         }
+    //     }
+    //
+    // },
+    methods:{
+      ajaxGoPageSearch(){
+        this.$http.post("http://127.0.0.1:8089/room/getAdminHotelroomTypes",this.search).then(
+                function (res) {
+                  if (res.status==200){
+                    this.totalPage=res.data.totalPage;
+                    this.total=res.data.total;
+                    this.roomList=res.data.items;
+                    this.holeName=this.roomList[0].hotelName;
+                    //console.log(this.roomList)
+                  }
+                },function (res) {
+
+                }
+        );
+      },
+      addPage(){
+        if (this.search.page==this.totalPage){
+          return;
+        }else {
+          this.search.page=this.search.page+1;
+          this.ajaxGoPageSearch()
+        }
+
+      } ,
+      deletePage(){
+        if (this.search.page==1){
+          return;
+        } else {
+          this.search.page=this.search.page-1;
+          this.ajaxGoPageSearch()
+        }
+      },
+      // tiaozhuan(id){
+      //     window.location.href="singerInfo.html?sid="+id;
+      // },
+      member_del(roomId){
+        if(confirm("确实要删除吗？")){
+          this.$http.post("http://127.0.0.1:8089/room/delectAdminHotelroomType/"+roomId).then(
+                  function (res) {
+                    if (res.status==200){
+                      layer.msg('已删除!',{icon:1,time:1000});
+                      this.search.page=1;
+                      this.ajaxGoPageSearch();
+                    }
+                  },function (res) {
+
+                  }
+          );
+        }
+
+      },
+         x_admin_show2(title,url,w,h){
+          if (title == null || title == '') {
+            title=false;
+          };
+          if (url == null || url == '') {
+            url="404.html";
+          };
+          if (w == null || w == '') {
+            w=($(window).width()*0.9);
+          };
+          if (h == null || h == '') {
+            h=($(window).height() - 50);
+          };
+          layer.open({
+            type: 2,
+            area: [w+'px', h +'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: title,
+            content: url
+          });
+    },
+
+    },
+
+  })
+
+
+</script>
+<script>
+  function xuanzhe() {
+    if ($("#all").is(':checked')) {
+      $('input[name="roomids"]').each(function () {
+        $(this).prop("checked", true);
+      });
+    } else {
+      $('input[name="roomids"]').each(function () {
+        $(this).prop("checked", false);
+      });
+    }
+
+  }
+
+</script>
+
 <script>
   layui.use('laydate', function(){
     var laydate = layui.laydate;
@@ -134,26 +267,30 @@
     });
   }
 
-  /*用户-删除*/
-  function member_del(obj,id){
-    layer.confirm('确认要删除吗？',function(index){
-      //发异步删除数据
-      $(obj).parents("tr").remove();
-      layer.msg('已删除!',{icon:1,time:1000});
-    });
-  }
 
-
-
-  function delAll (argument) {
+  function delAll () {
 
     var data = tableCheck.getData();
-
-    layer.confirm('确认要删除吗？'+data,function(index){
-      //捉到所有被选中的，发异步进行删除
-      layer.msg('删除成功', {icon: 1});
-      $(".layui-form-checked").not('.header').parents('tr').remove();
+    var ids=""
+    var len=$('input[name="roomids"]:checked').length
+    $.each($('input[name="roomids"]:checked'),function (index, item){
+      if(item.checked){
+        ids+=$(this).val().toString()+"-";
+      }
     });
+    if (ids==""||ids==null){
+      return
+    }
+    if(confirm("确定删删除吗")){
+      $.ajax({
+        url:"/room/deleteroomtypeids/"+ids,
+        type:"post",
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        success:function(result){
+          alert("删除成功请刷新")
+        }
+      });	}
   }
 </script>
 <script>var _hmt = _hmt || []; (function() {

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>门店展示</title>
+    <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -10,6 +11,7 @@
     <script type="text/javascript">
 
     </script>
+    <script type="text/javascript" src="js/vue.esm.js"></script>
     <style>
         * {
             margin: 0;
@@ -22,7 +24,7 @@
         .hotel {
             float: left;
             margin: 0 0 80px 80px;
-            width: 261px;
+            width: 230px;
             height: 294px;
             cursor: pointer;
             overflow: hidden;
@@ -205,9 +207,9 @@
             transition: transform .3s;
             text-align: center;
         }
-        .el-icon-arrow-up:before {
-            content: "\E605";
-        }
+        /*.el-icon-arrow-up:before {*/
+            /*content: "\E619";*/
+        /*}*/
         .optioin-panel{
             width: 800px;
             position: absolute;
@@ -241,6 +243,25 @@
         li, ol, ul {
             list-style: none;
         }
+        .search-option.active .arrow{
+            transform: rotate(180deg);
+        }
+        .search-option .arrow{
+            display: block;
+            font-weight: bolder;
+            margin-right: 20px;
+            font-size: 20px;
+            transition: transform .3s;
+            text-align: center;
+        }
+
+        div .search-box{
+
+        }
+
+        .optioin-panel{
+            display: none;
+        }
     </style>
 </head>
 
@@ -269,21 +290,23 @@
                                 <i>选择城市</i>
                             </span>
                             <i class="arrow el-icon-arrow-up">
+                                <span class="iconfont icon-down"></span>
                             </i>
+                            </a>
                             <div class="optioin-panel shadow">
-                                <ul class="city-name-wrap">
+                                <ul class="city-name-wrap" id="li">
                                     <li class>
-                                        <p><button onclick="load(1,上海)">上海</button></p>
+                                        <p><a href="javascript:void(0)" onclick="searchallciy()">全部</a></p>
                                     </li>
-                                    <li class>
-                                        <p>广州</p>
-                                    </li>
-                                    <li class>
-                                        <p>深圳</p>
-                                    </li>
-                                    <li class>
-                                        <p>长沙</p>
-                                    </li>
+                                    <!--<li class>-->
+                                        <!--<p><a href="javascript:void(0)"  onclick="showsearchBtn('美利坚')" >美利坚</a></p>-->
+                                    <!--</li>-->
+                                    <!--<li class>-->
+                                        <!--<p><a href="javascript:void(0)"  onclick="showsearchBtn('深圳')" >深圳</a></p>-->
+                                    <!--</li>-->
+                                    <!--<li class>-->
+                                        <!--<p><a href="javascript:void(0)"  onclick="showsearchBtn('长沙')" >长沙</a></p>-->
+                                    <!--</li>-->
                                 </ul>
                             </div>
                         </div>
@@ -299,20 +322,55 @@
 <div class="container">
 
 </div>
+
 <script>
+  var indexcity;
     $(function () {
+        loadcity()
         load(1);
     });
-    function load(indexpage,city) {
+
+    function showsearchBtn(city) {
+        indexcity = city;
+        load(1);
+    }
+function  searchallciy() {
+    indexcity="null";
+    load(1);
+}
+
+
+    function loadcity() {
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "/city/showcity",
+            success:function (data) {
+                console.log(data);
+                $.each(data,function (i,item) {
+                    var tr=`
+                    <li class>
+                        <p><a href="javascript:void(0)" onclick="showsearchBtn('`+item.cityName+`')">`+item.cityName+`</a></p>
+                     </li>
+                    `;
+                    $("#li").append(tr);
+                });
+            }
+        })
+    }
+
+    function load(indexpage){
         $.ajax({
             type: "post",//方法类型
             url:  "/hotel/loadhotel.do",//url
-            contentType: "application/json; charset=utf-8",
-            data:{"indexpage":indexpage,"city":city},
-            success: function (data) {
+            // contentType: "application/json; charset=utf-8",
+            data:{"indexpage":indexpage,"city":indexcity},
+            success: function (data){
                 var json = JSON.parse(data);
-                 var  length=json.total;
-                console.log(json.list[0].id);
+                console.log(json)
+                 var  length=json.size;
+                 console.log(length)
+                console.log(json.list[0].hotelName);
                 var hotel="";
                  for (var i=0;i<length;i++){
                      var hotelname=json.list[i].hotelName;
@@ -325,7 +383,7 @@
                      var hotelcontentend=" <div class=\"price-order\">\n" +
                          "                    <div class=\"hotel-price\">\n" +
                          "                        <p><span class=\"cny\">CNY</span>\n" +
-                         "                            558\n" +
+                         "                            "+json.list[i].hotellowprice+"\n" +
                          "                            <span class=\"start\">起</span></p>\n" +
                          "                    </div>\n" +
                          "                    <div class=\"book-btn\"><span class=\"order\"><a href=\"select.html?id="+json.list[i].id+"\">立即预定</a></span> <i class=\"arrow\"></i></div>\n" +
@@ -338,11 +396,11 @@
                  $("#hotel").html(hotel);
 
 
-                 console.log(json.prePage);
-                 var beginpage="<li><a><button onclick='load(1)'>首页</button></a></li>";
-                 var prepage="<li><a><button onclick='load("+json.prePage+")'>上一页</button></a></li>";
-                var nextpage="<li><a><button onclick='load("+json.nextPage+")'>下一页</button></a></li>";
-                var endpage="<li><a><button onclick='load("+json.pages+")'>尾页</button></a></li>";
+                 console.log(json.nextPage);
+                 var beginpage="<li><a href='javascript:void(0)'  onclick='load(1)'>首页</a></li>";
+                 var prepage="<li><a href='javascript:void(0)' onclick='load("+json.prePage+")'>上一页</a></li>";
+                var nextpage="<li><a href='javascript:void(0)' onclick='load("+json.nextPage+")'>下一页</a></li>";
+                var endpage="<li><a href='javascript:void(0)' onclick='load("+json.pages+")'>尾页</a></li>";
                  // var prepage="<li><a href=\"/hotel/loadhotel.do?indexpage=\""+json.prePage+">上一页</a></li>";
                  // var nextpage="<li><a href=\"/hotel/loadhotel.do?indexpage=\""+json.nextPage+">下一页</a></li>";
                  // var endpage="<li><a href=\"/hotel/loadhotel.do?indexpage=\""+json.pages+">尾页</a></li>";
@@ -351,10 +409,17 @@
                     page+= beginpage+prepage+nextpage+endpage;
                     page+=" </ul>";
                  $(".container").empty();
-                $(".container").html(page);
+                 $(".container").html(page);
             }
         })
     };
+
+    $(document).ready(function () {
+        $(".search-box").click(function () {
+            $(".optioin-panel").slideToggle();
+        });
+    })
+
 </script>
 </body>
 </html>

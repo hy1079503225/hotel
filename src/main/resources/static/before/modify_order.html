@@ -32,7 +32,7 @@
         border:1px solid #E0E0E0;
         overflow: auto;
  	}
- 	.table_tt:after{
+ 	.table_tt:before{
 		content:"￥";
  	}
     </style>
@@ -80,10 +80,6 @@
 				</thead>
 				<tbody>
 					<tr>
-					    <td class="lead">房间编号：</td>
-					    <td class="lead">401</td>
-					</tr>
-					<tr>
 					    <td class="lead">房间类型：</td>
 					    <td class="lead">
                             <select name="ftype" id="ftype" class="form-control">
@@ -94,29 +90,34 @@
                                 <option value="豪华间">豪华间</option>
                                 <option value="商务间">商务间</option>
                                 <option value="复试套间">复试套间</option>
-                                <option value="总统套房">总统套房</option>
 					    </select>
                     </td>
 					</tr>
 					<tr>
 					    <td class="lead">房主姓名：</td>
-					    <td class="lead">高向荣</td>
+					    <td class="lead" id="name"></td>
 					</tr>
 					<tr>
 					    <td class="lead">性别：</td>
-					    <td class="lead">男</td>
+					    <td class="lead" id="sex"></td>
 					</tr>
 					<tr>
 					    <td class="lead">电话号码：</td>
-					    <td class="lead">15244667788</td>
+					    <td class="lead" id="phone">
+                            <input type="text" class="form-control" placeholder="phone">
+                        </td>
 					</tr>
 					<tr>
 					    <td class="lead">入住时间：</td>
-					    <td ><input type="date" class="form-control" placeholder="Check-in time"></td>
+					    <td id="checkintime">
+                            <input type="date" class="form-control" placeholder="Check-in time">
+                        </td>
 					</tr>
 					<tr>
 					    <td class="lead">退房时间：</td>
-					    <td class="lead"><input type="date" class="form-control" placeholder="Check-in time" value="修改"></td>
+					    <td class="lead" id="checkouttime">
+                            <input type="date" class="form-control" placeholder="Check-in time" value="修改">
+                        </td>
 					</tr>		
 				</tbody>
 			</table>
@@ -165,5 +166,10 @@
     <script type="text/javascript" src="js/jquery.slitslider.js"></script>
 	<script type="text/javascript" src="js/slitslider-custom.js"></script>
     <script src="js/custom-scripts.js"></script>
+
+    <script>
+        $("#name").val(localStorage.getItem("name"));
+        $("#sex").val(localStorage.getItem("sex"));
+    </script>
 </body>
 </html>
