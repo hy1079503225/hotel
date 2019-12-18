@@ -100,7 +100,7 @@
 
 </div>
 <script src="js/vue.js"></script>
-
+<script src="js/public.js"></script>
 <script src="js/vue-resource.js"></script>
 <script>
 
@@ -118,9 +118,9 @@
       // sixSinger:[],
     },
     created() {
-
+      this.getUserid()
       // this.search.holtId=location.search.split("=")[1];
-      this.ajaxGoPageSearch();
+      //this.ajaxGoPageSearch();
       //this.ajaxGoGetSixSinger();
     },
     // watch: {
@@ -133,6 +133,20 @@
     //
     // },
     methods:{
+      getUserid(){
+        this.$http.post("http://127.0.0.1:8089/user/getUserbyUsername/"+getCookie("adminuser")).then(
+                function (res) {
+                  if (res.status==200){
+                    this.search.userId=res.body.id
+                    this.ajaxGoPageSearch()
+                  }
+                },function (res) {
+
+                }
+        );
+
+
+      },
       ajaxGoPageSearch(){
         this.$http.post("http://127.0.0.1:8089/room/getAdminHotelrooms",this.search).then(
                 function (res) {

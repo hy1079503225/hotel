@@ -108,28 +108,46 @@
 
 </div>
 <script src="js/ajaxupload.js"></script>
-
+<script src="js/public.js"></script>
 <script>
-    var userId=1;
+    var userName=getCookie("adminuser")
+
+    var userId;
     $(function () {
+
         $.ajax( {
             type: 'post',
-            url: '/room/getUserHotel/'+userId,
+            url: '/user/getUserbyUsername/'+userName,
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             success:function (r) {
-                console.log(r)
-                $.each(r,function (index, item) {
-                    $("<option value="+item.id+">"+item.hotelName+"</option>").appendTo("#hotle")
-                })
-
+                userId=r.id
+                getholts()
             },
             error:function () {
 
             }
-        })
+        })})
 
-    })
+    function getholts() {
+        $.ajax({
+            type: 'post',
+            url: '/room/getUserHotel/' + userId,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function (r) {
+                console.log(r)
+                $.each(r, function (index, item) {
+                    $("<option value=" + item.id + ">" + item.hotelName + "</option>").appendTo("#hotle")
+                })
+
+            },
+            error: function () {
+
+            }
+        })
+    }
+
 
     //选择酒店后获取类型列表
     function gettype(){

@@ -31,4 +31,7 @@ public interface RoomMapper extends Mapper<Room> {
 
     @Update("update room set type_id=0 ,room_type='无' where type_id=#{roomTypeId}")
     Integer updateRoomTypeForBytepyId(Integer roomTypeId);
+
+    @Select("select hole_id from user_hole where user_id =#{userId}")
+    List<Integer> gethoidIds(Integer userId);
 }

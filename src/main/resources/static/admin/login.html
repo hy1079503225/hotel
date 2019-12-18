@@ -21,15 +21,59 @@
     <div class="message">酒店管理系统后台登录</div>
     <div id="darkbannerwrap"></div>
 
-    <form method="post" class="layui-form" >
-        <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+    <div class="layui-form" >
+        <input name="username" id="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
         <hr class="hr15">
-        <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+        <input name="password" id="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
         <hr class="hr15">
-        <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <input value="登录"  style="width:100%;"  id="login">
+        <button onclick="zhuxiaoadmin()">测试注销</button>
         <hr class="hr20" >
-    </form>
+    </div>
 </div>
+<script src="js/public.js"></script>
+
+<script>
+    $("#login").click(function () {
+        var username=$("#username").val()
+        var password=$("#password").val()
+        var data={"username":username,"password":password}
+        if(username==null || username==""){
+            alert("号不能为空！");
+            return false;
+        }
+        if(password==null || password==""){
+            alert("密码不能为空！");
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',//方法类型
+            url: '/user/adminlogin',//url
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data:JSON.stringify(data),
+            success: function (result) {
+                if (result.code==200){
+                    alert("登录成功")
+                    setCookie("adminuser", result.username1);
+                    window.location.href="/admin/index.html"
+
+                } else {
+                    alert(result.msg)
+                }
+            },
+            error: function () {
+                alert("错误信息");
+            }
+        })
+    })
+
+
+
+
+
+</script>
 
 <script>
     $(function  () {

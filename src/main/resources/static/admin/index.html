@@ -16,7 +16,7 @@
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
 </head>
-<body>
+<body onload="checkCookieAdmin()">
 <!-- 顶部开始 -->
 <div class="container">
     <div class="logo"><a href="./index.html">天达酒店后台管理</a></div>
@@ -375,6 +375,7 @@
     <div class="copyright">Copyright ©2019 x-admin v2.3 All Rights Reserved</div>
 </div>
 <!-- 底部结束 -->
+<script src="js/public.js"></script>
 <script>
     //百度统计可去掉
     var _hmt = _hmt || [];

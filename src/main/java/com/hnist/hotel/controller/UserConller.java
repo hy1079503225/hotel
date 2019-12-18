@@ -3,15 +3,19 @@ package com.hnist.hotel.controller;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hnist.hotel.pojo.Hotel;
 import com.hnist.hotel.pojo.PageParams;
 import com.hnist.hotel.pojo.PageResult;
 import com.hnist.hotel.pojo.User;
 import com.hnist.hotel.service.UserService;
 import com.sun.xml.internal.ws.util.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @auther Cheirmin;
@@ -23,6 +27,31 @@ public class UserConller {
 
     @Autowired
     UserService userService;
+
+    @RequestMapping("login")
+    public Map<String,String> login(@RequestBody Map<String,String > map){
+
+
+        return userService.login(map);
+    }
+
+
+
+    @RequestMapping("getUserbyUsername/{userName}")
+    public ResponseEntity<User> getUserbyUsername(@PathVariable("userName")  String userName){
+        if (userName!=null){
+            return ResponseEntity.ok( userService.getUserbyUsername(userName));
+        }
+        return null;
+    }
+
+
+    @RequestMapping("adminlogin")
+    public Map<String,String> adminlogin(@RequestBody Map<String,String > map){
+
+
+        return userService.adminlogin(map);
+    }
 
     /**
      *
@@ -46,6 +75,8 @@ public class UserConller {
 
         return user==null?"false":json;
     }
+
+
     /**
      * 获取用户列表
      * @param request

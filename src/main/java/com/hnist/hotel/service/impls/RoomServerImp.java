@@ -2,8 +2,10 @@ package com.hnist.hotel.service.impls;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.hnist.hotel.mapper.HotelMapper;
 import com.hnist.hotel.mapper.RoomMapper;
 import com.hnist.hotel.mapper.RoomTypeMapper;
+import com.hnist.hotel.mapper.UserMapper;
 import com.hnist.hotel.pojo.*;
 import com.hnist.hotel.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
 @Service
 public class RoomServerImp implements RoomService {
 
+    @Autowired
+    UserMapper userMapper;
     @Autowired
     RoomMapper roomMapper;
 
@@ -88,8 +92,6 @@ public class RoomServerImp implements RoomService {
     @Override
     public PageResult<RoomType> getAdminHotelroomTypes(PageParams pageParams, Integer userId) {
         Integer powerId= getPower(userId);
-        // 开始分页
-        PageHelper.startPage(pageParams.getPage(), pageParams.getLimit());
         //过滤条件
         Example example=new Example(Room.class);
         if (powerId==1){//超级管理员}
@@ -97,6 +99,9 @@ public class RoomServerImp implements RoomService {
             List<Integer> holetIds=getUserHel(userId).stream().map(m->m.getId()).collect(Collectors.toList());
             example.createCriteria().andIn("hotelId",holetIds);
         }
+        // 开始分页
+        PageHelper.startPage(pageParams.getPage(), pageParams.getLimit());
+
         //查询
         Page<RoomType> pageInfo = (Page<RoomType>) roomTypeMapper.selectByExample(example);
         //System.out.println("song:" + pageInfo);
@@ -314,26 +319,40 @@ public class RoomServerImp implements RoomService {
 //    }
 
 
-
+    @Autowired
+    HotelMapper hotelMapper;
     //这个人所有的酒店 未完成Override
     public List<Hotel> getUserHel(Integer userId) {
         //查看这个人所有的酒店
         List<Hotel> list=new ArrayList<>();
-        Hotel hotel=new Hotel();
-        hotel.setId(1);
-        hotel.setHotelName("test1");
-        list.add(hotel);
-        Hotel hotel2=new Hotel();
-        hotel2.setId(3);
-        hotel2.setHotelName("test2");
-        list.add(hotel2);
+
+        List<Integer> holtId= roomMapper.gethoidIds(userId);
+        holtId.forEach(m->{
+            Example example=new Example(Hotel.class);
+            example.createCriteria().andEqualTo("id",m);
+//            Hotel hotel =);
+            list.add(hotelMapper.selectOneByExample(example));
+        });
+        list.forEach(m->{
+            System.out.println(m);
+        });
+//        Hotel hotel=new Hotel();
+//        hotel.setId(1);
+//        hotel.setHotelName("test1");
+//        list.add(hotel);
+//        Hotel hotel2=new Hotel();
+//        hotel2.setId(3);
+//        hotel2.setHotelName("test2");
+//        list.add(hotel2);
 
         return list;
     }
     //获取权限（未完成）
     public Integer getPower(Integer userId){
-        System.out.println("获取权限");
-        return 2;
+        Example example=new Example(User.class);
+        example.createCriteria().andEqualTo("id",userId);
+       User user= userMapper.selectOneByExample(example);
+        return user.getType();
 
     }
 
