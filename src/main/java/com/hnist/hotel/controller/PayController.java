@@ -3,7 +3,11 @@ package com.hnist.hotel.controller;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.hnist.hotel.config.AliPayConfig;
+import com.hnist.hotel.error.BusinessException;
+import com.hnist.hotel.pojo.Order;
+import com.hnist.hotel.service.OrderService;
 import com.hnist.hotel.service.impls.AliPayService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +24,18 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Controller
-public class PayControl {
+public class PayController {
 
     @Autowired
     AliPayService aliPayService;
     @Autowired
     AliPayConfig aliPayConfig;
 
+    @Autowired
+    private OrderService orderService;
+
     @RequestMapping("/payTest")
-   public void testPay(HttpServletResponse httpResponse){
+    public void testPay(HttpServletResponse httpResponse){
         String form = aliPayService.genPage();
         httpResponse.setContentType("text/html;charset=" + aliPayConfig.CHARSET);
         try{
@@ -42,9 +49,9 @@ public class PayControl {
 
 
     @RequestMapping(value = "/returnUrl", method = RequestMethod.GET)
-    @ResponseBody
+//    @ResponseBody
     public String returnUrl(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, AlipayApiException {
+            throws IOException, AlipayApiException, BusinessException {
         System.out.println("=================================同步回调=====================================");
 
         // 获取支付宝GET过来反馈信息
@@ -81,11 +88,12 @@ public class PayControl {
 
             //支付成功，修复支付状态
             aliPayService.updateById(out_trade_no);
-            return "ok";//跳转付款成功页面
+            Order order = new Order();
+            orderService.createOrder(order.getUserId(),order.getUserCardid(),order.getHotelId(),order.getRoomType(),order.getRoomNumber(),order.getOrderCost());
+            return "redirect:before/index.html";//跳转付款成功页面
         }else{
-            return "no";//跳转付款失败页面
+            return "redirect:";//跳转付款失败页面
         }
-
     }
     @GetMapping("/refund")
     @ResponseBody

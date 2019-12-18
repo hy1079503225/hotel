@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="css/slider-style.css" />
     <link rel="stylesheet" type="text/css" href="css/slider-custom.css" />
 	<script type="text/javascript" src="js/modernizr.custom.79639.js"></script>
+
     <style type="text/css">
  	.order-style{
  	margin-bottom: 30px;
@@ -32,7 +33,7 @@
     border:1px solid #E0E0E0;
     overflow: auto;
  	}
- 	.table_tt:after{
+ 	.table_tt:before{
 		content:"￥";
  	}
     </style>
@@ -40,9 +41,9 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
-    <link rel="shortcut icon" href="images/ico/favicon.ico"> 
-</head> 
-
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+	<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+</head>
 <body id="home">
     <header id="header">
         <nav id="main-nav" class="navbar navbar-default navbar-fixed-top" role="banner">
@@ -56,16 +57,12 @@
                     </button>
                     <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
                 </div>
-				
-
             </div><!--/.container-->
         </nav><!--/nav-->
     </header><!--/header-->
 
-
 <section id="portfolio">
         <div class="container">
-            
             <div class="section-header">
                 <h2 class="section-title wow fadeInDown">完成订单</h2>
                 <hr>
@@ -77,7 +74,7 @@
 			<div class="">
 				<h4>查看订单详情(含支付信息)</h4> 
 			<div class="col-sm-4">
-				<span class="text-muted">下单日：2018年2月3日</span>
+				<span class="text-muted">下单日：</span>
 			<table >
 				<thead>
 					<tr>
@@ -86,17 +83,16 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="lead">酒店门店：</td>
-						<td class="lead">湖南长沙岳麓区麓松路梅溪湖地铁4号口左侧</td>
+						<td class="lead" >酒店门店：</td>
+						<td class="lead" id="hotelname"></td>
 					</tr>
 					<tr>
-						<td class="table_td lead">房间价格：</td>
-						<td class="table_tt lead">800</td>
+						<td class="table_td lead" >房间价格：</td>
+						<td class="table_tt lead" id="roomprice"></td>
 					</tr>
 				</tbody>
 			</table>
 			</div>
-
 			<div class="col-sm-4">
 			<table>
 				<thead>
@@ -108,42 +104,42 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="lead">房间号：</td>
-						<td class="lead">401</td>
+						<td class="lead" >房间号：</td>
+						<td class="lead" id="roomnumber"></td>
 					</tr>
 					<tr>
-						<td class="lead">房间类型：</td>
-						<td class="lead">豪华套房</td>
+						<td class="lead" >房间类型：</td>
+						<td class="lead" id="roomtype"></td>
 					</tr>
 					<tr>
-						<td class="lead">房主姓名：</td>
-						<td class="lead">高向荣</td>
+						<td class="lead" >房主姓名：</td>
+						<td class="lead" id="name"></td>
 					</tr>
 					<tr>
-						<td class="lead">性别：</td>
-						<td class="lead">男</td>
+						<td class="lead" >性别：</td>
+						<td class="lead" id="sex"></td>
 					</tr>
 					<tr>
-						<td class="lead">电话号码：</td>
-						<td class="lead">15244667788</td>
+						<td class="lead" >电话号码：</td>
+						<td class="lead" id="telphone"></td>
 					</tr>
 					<tr>
-						<td class="lead">入住时间：</td>
-						<td class="lead">1997-03-29</td>
+						<td class="lead" >入住时间：</td>
+						<td class="lead" id="checkintime"></td>
 					</tr>
 					<tr>
-						<td class="lead">退房时间：</td>
-						<td class="lead">2019-11-12</td>
+						<td class="lead" >退房时间：</td>
+						<td class="lead" id="checkouttime"></td>
 					</tr>		
 				</tbody>
 			</table>
 			</div>
-
 			<div class="col-sm-4 text-danger">
-					<h4>付款请扫码：</h4>
-					<img src="images/pay.jpg" alt="pay" style="height: 240px;">
+                <p>目前暂时仅供支付宝付款</p>
+					<button id="create">
+						<input type="submit" value="付款" onclick=javascript:window.location.href='http://localhost:8089/payTest'>
+					</button>
 			</div>
-
 			</div>
 			<div class="text-muted text-right">
 				<span>订单编号 C03-3436328-0992005</span>
@@ -183,4 +179,54 @@
 	<script type="text/javascript" src="js/slitslider-custom.js"></script>
     <script src="js/custom-scripts.js"></script>
 </body>
+<script>
+	$("#hotelname").html(localStorage.getItem("hotelname"));
+	$("#roomtype").html(localStorage.getItem("roomtype"));
+	$("#roomnumber").html(localStorage.getItem("roomnumber"));
+	$("#roomprice").html(localStorage.getItem("roomprice"));
+	$("#name").val(localStorage.getItem("name"));
+	$("#sex").val(localStorage.getItem("sex"));
+	$("#telphone").val(localStorage.getItem("telphone"));
+	$("#checkintime").val(localStorage.getItem("checkintime"));
+	$("#checkouttime").val(localStorage.getItem("checkouttime"));
+	alert($("#hotelname").html(localStorage.getItem("hotelname")));
+	jQuery(document).ready(function () {
+		$("#create").on("click",function () {
+			var hotelId = $("#hotelId").val();
+			var roomType = $("#roomType").val();
+			var roomNumber = $("#roomNumber").val();
+			var orderDate = $("#orderDate").val();
+			var orderDays = $("#orderDays").val();
+			var orderStatus = $("#orderStatus").val();
+			var orderCost = $("#orderCost").val();
+			var createTime = $("#createTime").val();
+			var updateTime = $("#updateTime").val();
+			var userId = $("#userId").val();
+			var userUsername = $("#userUsername").val();
+			var userPhone = $("#userPhone").val();
+			var userCardid = $("#userCardid").val();
+
+			$.ajax({
+				type:"POST",
+				contentType:"application/json,charset=utf-8",
+				url:"/order/createorder",
+				data:{
+					"hotelId":hotelId,
+					"roomType":roomType,
+					"roomNumber":roomNumber,
+					"orderDate":orderDate,
+					"orderDays":orderDays,
+					"orderStatus":orderStatus,
+					"orderCost":orderCost,
+					"createTime":createTime,
+					"updateTime":updateTime,
+					"userId":userId,
+					"userUsername":userUsername,
+					"userPhone":userPhone,
+					"userCardid":userCardid
+				}
+			});
+		})
+	})
+</script>
 </html>

@@ -6,6 +6,11 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.hnist.hotel.config.AliPayConfig;
+import com.hnist.hotel.pojo.Order;
+import com.hnist.hotel.pojo.Room;
+import com.hnist.hotel.pojo.RoomType;
+import com.hnist.hotel.service.OrderService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,8 @@ public class AliPayService implements  InitializingBean {
     @Autowired
     AliPayConfig aliPayConfig;
 
+    @Autowired
+    private OrderServiceImpl orderService;
 
 
     public String genPayPic() {
@@ -32,6 +39,9 @@ public class AliPayService implements  InitializingBean {
 
 
     public String genPage() {
+        Order order = new Order();
+        Room room = new Room();
+        RoomType roomType = new RoomType();
         Random r=new Random();
         //实例化客户端,填入所需参数
         AlipayClient alipayClient = new DefaultAlipayClient(aliPayConfig.GATEWAY_URL
@@ -45,14 +55,22 @@ public class AliPayService implements  InitializingBean {
         //商户订单号，商户网站订单系统中唯一订单号，必填
         //生成随机Id
         String out_trade_no = UUID.randomUUID().toString();
+//        //生成订单id
+//        String out_trade_no = order.getId(orderService.generateOrderNo());
         //付款金额，必填
-        String total_amount =Integer.toString(239999);
+        String total_amount = Double.toString(100000.00);
+//        //房间类型，必填
+//        String room_type = roomType.getTypeName();
+//        //房间号，必填
+//        String room_number = room.getRoomNumber();
         //订单名称，必填
-        String subject ="王国纪元三爹 金绝号 108张机票";
+        String subject ="天达酒店预订";
         //商品描述，可空
-        String body = "王国纪元三爹 金绝号 108张机票 随意飞 飞新区直接当老大";
+        String body = "欢迎预定";
         request.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","
+//                + "\"room_type\":\""+ room_type +"\","
+//                + "\"room_number\":\""+ room_number +"\","
                 + "\"subject\":\""+ subject +"\","
                 + "\"body\":\""+ body +"\","
                 + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
@@ -65,7 +83,6 @@ public class AliPayService implements  InitializingBean {
         return form;
     }
 
-
     public String refund(String outTradeNo) throws AlipayApiException {
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(aliPayConfig.GATEWAY_URL
@@ -76,7 +93,7 @@ public class AliPayService implements  InitializingBean {
         //商户订单号，必填
         String out_trade_no = new String(outTradeNo);
         //需要退款的金额，该金额不能大于订单金额，必填
-        String refund_amount = "239999.00";
+        String refund_amount = "900000.00";
         //标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传
         String out_request_no = new String(UUID.randomUUID().toString());
 
@@ -87,7 +104,6 @@ public class AliPayService implements  InitializingBean {
         return alipayClient.execute(alipayRequest).getBody();
         //输出
     }
-
 
     public void afterPropertiesSet() throws Exception {
 
