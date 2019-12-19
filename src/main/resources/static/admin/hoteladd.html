@@ -125,7 +125,7 @@
 <script>
 
     $("#add").click(function () {
-        var hotelImg=   $("#hotelImg").val();
+        // var hotelImg=   $("#hotelImg").val();
         var hotelName=$("#hotelName").val();
         var city=$("#city").val();
         var phone=$("#phone").val();
@@ -161,7 +161,7 @@
         });
     });
 
-
+var hotelImg;
 
     // <!--图片先上传-->
     $("#uploadImgBtn").click(function () {
@@ -172,9 +172,9 @@
                 dataType: 'json', //返回值类型 一般设置为json
                 success: function (data, status)  //服务器成功响应处理函数
                 {
-                    console.log(data)
+                    hotelImg=data;
                     $("#imgurl").val(data);
-                    alert($("#imgurl").val()+"上传成功")
+                    alert("上传成功")
                 },
                 error: function (data, status, e)//服务器响应失败处理函数
                 {

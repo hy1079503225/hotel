@@ -375,7 +375,7 @@ function  searchallciy() {
                  for (var i=0;i<length;i++){
                      var hotelname=json.list[i].hotelName;
                      var hotelcontentbegin=" <div class=\"hotel\">\n" +
-                         "            <div class=\"hotel-img\" style=\"background-image: url('./images/hotel/" +json.list[i].hotelImg +"');\"></div>\n" +
+                         "            <div class=\"hotel-img\" style=\"background-image: url('" +json.list[i].hotelImg +"');\"></div>\n" +
                          "            <div class=\"hotel-bottom\">";
 
                       var hotelcontentp=" <p class=\"hotel-name line2\">"+hotelname+"</p>";

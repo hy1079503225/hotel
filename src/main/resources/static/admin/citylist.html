@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>酒店管理</title>
+    <title>城市管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -56,6 +56,7 @@
             <th>城市id</th>
             <th>城市名称</th>
             <th>城市下所有酒店数量</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody class="tr">
@@ -97,10 +98,35 @@
     </div>
 
 </div>
-
+<script src="js/public.js"></script>
 <script>
+
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+
     $(function () {
-        load(1);
+        $.ajax({
+            type:"post",
+            url:"/user/getUserbyUsername/"+getCookie("adminuser"),
+            success:function (data) {
+                if (data.type==3){
+                    load(1);
+                }else {
+                    alert("你没有权限！");
+                }
+            }
+        });
     });
 
     var city;
@@ -129,9 +155,9 @@
                         "      <td>"+json.list[i].hotelnum+"</td>\n" ;
                     var tthtml=
                         "<td class=\"td-manage\">\n" +
-                        "        <a title=\"修改\"  onclick=\"x_admin_show('修改','cityupdate.html?id="+json.list[i].id+"&cityName="+json.list[i].cityName+" ')\" href=\"javascript:;\">\n" +
-                        "          <i class=\"layui-icon\">&#xe63c;</i>\n" +
-                        "        </a>\n" +
+                        // "        <a title=\"修改\"  onclick=\"x_admin_show('修改','cityupdate.html?id="+json.list[i].id+"&cityName="+json.list[i].cityName+" ')\" href=\"javascript:;\">\n" +
+                        // "          <i class=\"layui-icon\">&#xe63c;</i>\n" +
+                        // "        </a>\n" +
                         "        <a title=\"删除\" onclick=\"del("+json.list[i].id+")\" href=\"javascript:;\">\n" +
                         "          <i class=\"layui-icon\">&#xe640;</i>\n" +
                         "        </a>\n" +
@@ -187,12 +213,8 @@
                 {id:id}
                 , function (data) {
                     if (data=="true"){
-                        layer.alert("删除成功,请刷新", {icon: 6},function () {
-                            // 获得frame索引
-                            var index = parent.layer.getFrameIndex(window.name);
-                            //关闭当前frame
-                            parent.layer.close(index);
-                        });
+                        // layer.alert("删除成功,请刷新");
+                        layer.msg('已删除!请刷新!',{icon:1,time:1000});
                     }else {
                         alert("您没有权限删除！");
                         window.location.reload();
@@ -200,6 +222,7 @@
                 });
         }
     }
+
 </script>
 
 </body>

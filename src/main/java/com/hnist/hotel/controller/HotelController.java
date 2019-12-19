@@ -1,5 +1,6 @@
 package com.hnist.hotel.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 
 @Controller
@@ -41,7 +43,6 @@ public class HotelController {
     @RequestMapping("loadhotelone")
     @ResponseBody
     public String loadhotelone(Integer hotelid){
-        hotelid=1;
         Hotel hotel = hotelService.queryhotelone(hotelid);
         ObjectMapper objectMapper=new ObjectMapper();
         String s =null;
@@ -67,8 +68,8 @@ public class HotelController {
 
     @RequestMapping("deletehotel")
     @ResponseBody
-    public String deletehotel(@RequestBody Hotel hotel){
-        boolean b = hotelService.delete(hotel);
+    public String deletehotel(Integer hotelid,String cityname){
+        boolean b = hotelService.delete(hotelid,cityname);
         if (b){
             return "true";
         }
@@ -77,8 +78,8 @@ public class HotelController {
 
     @RequestMapping("updatehotel")
     @ResponseBody
-    public String updatehotel(Hotel hotel){
-        boolean b = hotelService.update(hotel);
+    public String updatehotel(@RequestBody Map<String,Object> map){
+         boolean b = hotelService.update(map);
         if (b){
             return "true";
         }

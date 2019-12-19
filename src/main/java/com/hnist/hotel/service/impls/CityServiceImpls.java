@@ -6,6 +6,7 @@ import com.hnist.hotel.mapper.CityMapper;
 import com.hnist.hotel.pojo.City;
 import com.hnist.hotel.service.CityService;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,12 +27,18 @@ public class CityServiceImpls implements CityService {
     }
 
     @Override
-    public PageInfo queryallcity(Integer indexpage) {
+    public PageInfo queryallcity(Integer indexpage,String city) {
         if (indexpage==null){
             indexpage=1;
         }
+        Example example=new Example(City.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (city!=null&&!city.equals("null")){
+            String lcity="%"+city+"%";
+               criteria.andLike("cityName",lcity);
+        }
         PageHelper.startPage(indexpage,9);
-        List list = cityMapper.selectAll();
+        List list = cityMapper.selectByExample(example);
         PageInfo pageInfo=new PageInfo(list);
         if (list!=null&&list.size()>0){
             return pageInfo;

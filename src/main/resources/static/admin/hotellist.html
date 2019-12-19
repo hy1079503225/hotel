@@ -43,7 +43,7 @@
     </form>
   </div>
   <xblock>
-    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+    <!--<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>-->
     <button class="layui-btn" onclick="x_admin_show('添加用户','./hoteladd.html')"><i class="layui-icon"></i>添加</button>
     <span class="x-right" style="line-height:40px"></span>
   </xblock>
@@ -106,19 +106,32 @@
   </div>
 
 </div>
-
+<script src="js/public.js"></script>
 <script>
+  var adminuser=getCookie("adminuser");
+  
   $(function () {
-    load(1);
+    $.ajax({
+      type:"post",
+      url:"/user/getUserbyUsername/"+adminuser,
+      success:function (data) {
+        if (data.type==3){
+          load(1);
+        }else {
+          alert("你没有权限！");
+        }
+      }
+    });
   });
 
+  var city;
+
  function searchBtn() {
-   var city=$(".layui-input").val();
-   window.alert(city);
-   load(1,city);
+   city=$(".layui-input").val();
+   load(1);
 }
 
-  function load(indexpage,city) {
+  function load(indexpage) {
 
     $.ajax({
       type: "post",//方法类型
@@ -134,7 +147,7 @@
                   "        <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div>\n" +
                   "      </td>\n" +
                   "      <td>"+ json.list[i].id+"</td>\n" +
-                  "      <td><img src=\"/upload/"+json.list[i].hotelImg+"\"/></td>"+
+                  "      <td><img src=\""+json.list[i].hotelImg+"\"/></td>"+
                   "      <td>"+json.list[i].hotelName+"</td>\n" +
                   "      <td>"+json.list[i].city+"</td>\n" +
                   "      <td>"+json.list[i].phone+"</td>\n" +
@@ -148,7 +161,7 @@
                   "        <a title=\"修改\"  onclick=\"x_admin_show('修改','hotelupdate.html?id="+json.list[i].id+"')\" href=\"javascript:;\">\n" +
                   "          <i class=\"layui-icon\">&#xe63c;</i>\n" +
                   "        </a>\n" +
-                  "        <a title=\"删除\" onclick=\"del("+json.list[i]+")\" href=\"javascript:;\">\n" +
+                  "        <a title=\"删除\" onclick=\"del("+json.list[i].id+",'"+json.list[i].city+"')\" href=\"javascript:;\">\n" +
                   "          <i class=\"layui-icon\">&#xe640;</i>\n" +
                   "        </a>\n" +
                   "      </td>";
@@ -246,22 +259,18 @@
   //     layer.msg('已删除!',{icon:1,time:1000});
   //   });
   // }
- function del(hotel) {
+ function del(hotelid,cityname) {
        if (window.confirm("确认删除吗?")){
            $.ajax({
                url:  "/hotel/deletehotel",
                type:'post',
                dataType:"json",
-               contentType: "application/json; charset=utf-8",
-               data:JSON.stringify(hotel),
+               // contentType: "application/json; charset=utf-8",
+               data:{hotelid:hotelid,cityname:cityname},
                success:function (data) {
                    if (data==true){
-                       layer.alert("删除成功,请刷新", {icon: 6},function () {
-                           // 获得frame索引
-                           var index = parent.layer.getFrameIndex(window.name);
-                           //关闭当前frame
-                           parent.layer.close(index);
-                       });
+                       // layer.alert("删除成功,请刷新");
+                         layer.msg('已删除!请刷新!',{icon:1,time:1000});
                    } else {
                        layer.alert("删除失败");
                        window.location.reload();

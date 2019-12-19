@@ -22,9 +22,9 @@ public class CityController {
 
     @RequestMapping("loadcity")
     @ResponseBody
-    public String loadcity(Integer indexpage){
+    public String loadcity(Integer indexpage,String city){
         System.out.println("-----------city");
-        PageInfo queryallcity = cityService.queryallcity(indexpage);
+        PageInfo queryallcity = cityService.queryallcity(indexpage,city);
         ObjectMapper objectMapper=new ObjectMapper();
         try {
             String s = objectMapper.writeValueAsString(queryallcity);

@@ -20,6 +20,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HotelServiceImpl implements HotelService {
@@ -60,11 +61,23 @@ public class HotelServiceImpl implements HotelService {
           return null;
     }
 
+
+//酒店的修改操作
     @Override
-    public boolean update(Hotel hotel) {
-          if (hotel!=null){
+    public boolean update(Map<String,Object> map) {
+          if (map!=null&&map.size()>0){
+              Hotel hotel=new Hotel();
+              hotel.setId(Integer.parseInt(map.get("hotelid").toString()));
+              hotel.setHotelName((String) map.get("hotelname"));
+              hotel.setHotelImg((String) map.get("hotelImg"));
+              hotel.setAddress((String) map.get("address"));
+              hotel.setPhone((String) map.get("phone"));
+              hotel.setWebsite((String) map.get("website"));
+              hotel.setHotellowprice(Integer.parseInt(map.get("hotellowprice").toString()));
+              hotel.setEmail((String) map.get("email"));
               int i = hotelMapper.updateByPrimaryKeySelective(hotel);
               if (i>0){
+                  System.out.println("-----------");
                   return true;
               }
           }
@@ -73,14 +86,16 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     @Transactional
-    public boolean delete(@RequestBody Hotel hotel) {
-        if (hotel!=null){
-            int i = hotelMapper.delete(hotel);
+    public boolean delete(Integer hotelid,String cityname) {
+        if (hotelid!=null){
+            int i = hotelMapper.deleteByPrimaryKey(hotelid);
             if (i>0){
-                String cityname = hotel.getCity();
-                int j = cityMapper.updatenum(cityname);
-                if (j>0){
-                    return true;
+                if (cityname!=null){
+                    System.out.println(cityname);
+                    int j = cityMapper.updatenum(cityname);
+                    if (j>0){
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -96,11 +111,11 @@ public class HotelServiceImpl implements HotelService {
             if (i>0){
                 String cityname = hotel.getCity();
                 Example example=new Example(City.class);
-                Example.Criteria city = example.createCriteria().andEqualTo("city", cityname);
-                City onecity = cityMapper.selectOneByExample(city);
+                Example.Criteria city = example.createCriteria().andEqualTo("cityName", cityname);
+                City onecity = cityMapper.selectOneByExample(example);
                 if (onecity!=null&&onecity.getCityName()!=null){
                     int j = cityMapper.upnum(cityname);
-                    if (i>0){
+                    if (j>0){
                         return true;
                     }
                 }else {

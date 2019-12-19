@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
+    <title>酒店修改</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <script type="text/javascript" src="./js/xcity.js"></script>
+
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -25,7 +26,7 @@
 <body>
 <div class="x-body">
 
-        <input type="text" hidden id="hotelid">
+        <input type="text"  id="hotelid">
 
     <div class="layui-form-item">
         <label for="roomtype" class="layui-form-label">
@@ -127,15 +128,15 @@
     </div>
 
         <div class="layui-form-item">
-            <label for="add" class="layui-form-label">
+            <label for="" class="layui-form-label">
             </label>
-            <button id="uphotel" class="layui-btn" lay-filter="add" lay-submit="">
+            <button id="uphotel" class="layui-btn"  lay-submit="">
                 保存
             </button>
         </div>
 
 </div>
-
+<script src="js/ajaxupload.js"></script>
 <script>
 
     $(function () {
@@ -146,13 +147,14 @@
         var url=location.search;
         url=url.split('?')[1];
         url=url.split('=')[1];
+        alert(url);
         $.post(
             "/hotel/loadhotelone",
             {hotelid:url},
         function (data) {
                var json= JSON.parse(data);
                var img="/upload/"+json.hotelImg;
-              $("#hotelid").val(json.id);
+              $("#hotelid").val(url);
             $("#headUrl").attr("src",img);
              $("#hotelname").val(json.hotelName);
              $("#phone").val(json.phone);
@@ -170,14 +172,14 @@
     $("#uphotel").click(function () {
         var hotelid=$("#hotelid").val();
         var hotelImg=   $("#hotelImg").val();
-        var hotelName=$("#hotelName").val();
-        var city=$("#city").val();
+        var hotelname=$("#hotelname").val();
         var phone=$("#phone").val();
         var email=$("#email").val();
         var address=$("#address").val();
         var website=$("#website").val();
-        var data={"hotelid":hotelid,"hotelImg":hotelImg,"hotelName":hotelName,"city":city,"phone":phone,"email":email
-            ,"address":address,"website":website}
+        var hotellowprice=$("#hotellowprice").val();
+        var data={"hotelid":hotelid,"hotelImg":hotelImg,"hotelname":hotelname,"phone":phone,"email":email
+            ,"address":address,"website":website,"hotellowprice":hotellowprice};
         $.ajax({
             url: "/hotel/updatehotel",
             type:'post',

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CityService {
       List<City> queryshowcity();
-      PageInfo queryallcity(Integer indexpage);
+      PageInfo queryallcity(Integer indexpage,String city);
       boolean addcity(City city);
       boolean deleteCity(Integer cityid);
       boolean updateCity(City city);
